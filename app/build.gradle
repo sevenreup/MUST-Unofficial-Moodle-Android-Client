@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.skybox.seven.edustat"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -24,6 +24,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -38,7 +42,7 @@ dependencies {
 
     // google UI
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta8'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
     implementation "com.google.android.material:material:${versions.material}"
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
