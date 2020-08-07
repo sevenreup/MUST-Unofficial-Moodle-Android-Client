@@ -1,15 +1,14 @@
-package com.skybox.seven.edustat.api.response;
+package com.skybox.seven.edustat.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+
+import com.squareup.moshi.Json;
 
 public class AuthResponse {
 
-    @SerializedName("token")
-    @Expose
+    @Json(name="token")
     private String token;
-    @SerializedName("privatetoken")
-    @Expose
+
+    @Json(name="privatetoken")
     private String privatetoken;
 
     public String getToken() {

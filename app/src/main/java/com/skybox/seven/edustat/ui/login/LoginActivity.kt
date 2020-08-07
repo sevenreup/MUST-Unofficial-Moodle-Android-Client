@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         binding.viewmodel = loginViewModel
 
         loginViewModel.loggedIn.observe(this, Observer {
-            Intent(this, MainActivity::class.java)
+            startActivity(Intent(this, MainActivity::class.java))
         })
     }
 }
