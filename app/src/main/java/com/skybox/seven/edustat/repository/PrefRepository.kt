@@ -7,15 +7,15 @@ import com.skybox.seven.edustat.api.response.AuthResponse
 class PrefRepository (private val prefs: SharedPreferences) {
     private var _authToken: String? = prefs.getString(ACCESS_TOKEN, null)
 
-    var authToken = _authToken
-
     fun logout() {
         prefs.edit{
             ACCESS_TOKEN to null
             PRIVATE_TOKEN to null
         }
-        authToken = null
     }
+
+    fun checkAuthState(): Boolean = _authToken != null
+
 
     fun saveToken(authResponse: AuthResponse) {
         prefs.edit{

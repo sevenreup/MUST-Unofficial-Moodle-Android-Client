@@ -1,5 +1,6 @@
 package com.skybox.seven.edustat.ui.login
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+private const val TAG = "LoginViewModel"
 class LoginViewModel @ViewModelInject constructor(
     private val moodleService: MoodleService,
     private val compositeDisposable: CompositeDisposable,
@@ -23,10 +25,10 @@ class LoginViewModel @ViewModelInject constructor(
     fun login() {
         if (validate())
             compositeDisposable.add(
-                moodleService.login(username.toString(), password.toString())
+                moodleService.login(username.value!!, password.value!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .map { it }.subscribeWith(loginObserver())
+                    .subscribeWith(loginObserver())
             )
 
     }
@@ -41,6 +43,8 @@ class LoginViewModel @ViewModelInject constructor(
                 if (t != null) {
                     prefRepository.saveToken(t)
                     loggedIn.value = true
+                } else {
+                    Log.e(TAG, "onSuccess: it was null")
                 }
                 // else server problems
             }
