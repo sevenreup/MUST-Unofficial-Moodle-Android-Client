@@ -1,13 +1,16 @@
 package com.skybox.seven.edustat.di
 
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.skybox.seven.edustat.api.MoodleInterceptor
 import com.skybox.seven.edustat.api.MoodleService
+import com.skybox.seven.edustat.repository.PrefRepository
 import com.skybox.seven.edustat.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -37,4 +40,7 @@ object AppModule {
             .build()
         return retrofit.create(MoodleService::class.java)
     }
+
+    @Provides
+    fun getPreferences(@ApplicationContext context: Context): PrefRepository = PrefRepository(context.getSharedPreferences(PrefRepository.PREFS, Context.MODE_PRIVATE))
 }

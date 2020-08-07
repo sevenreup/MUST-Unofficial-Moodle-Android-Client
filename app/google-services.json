@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "382125852299",
+    "firebase_url": "https://edustat-53ea1.firebaseio.com",
+    "project_id": "edustat-53ea1",
+    "storage_bucket": "edustat-53ea1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382125852299:android:df30a4a0dbb4d26ff3f68e",
+        "android_client_info": {
+          "package_name": "com.skybox.seven.edustat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382125852299-d75c6q542rjktogv22mjlj2pi01h6j0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvA39wfhFAB6u3yTpVNk7ai4zfCNB0v94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382125852299-d75c6q542rjktogv22mjlj2pi01h6j0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
