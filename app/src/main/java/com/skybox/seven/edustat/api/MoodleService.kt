@@ -15,5 +15,5 @@ interface MoodleService {
     fun getSite(): Single<Site>
 
     @GET("webservice/rest/server.php?wsfunction=core_enrol_get_users_courses")
-    fun getCourses(@Query("userid") id: String): Single<Course>
+    fun getCourses(@Query("userid") id: Int): Single<List<Course>>
 }

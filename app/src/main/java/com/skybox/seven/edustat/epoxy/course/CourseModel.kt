@@ -1,0 +1,28 @@
+package com.skybox.seven.edustat.epoxy.course
+
+import android.widget.TextView
+import com.airbnb.epoxy.EpoxyAttribute
+import com.airbnb.epoxy.EpoxyModelClass
+import com.airbnb.epoxy.EpoxyModelWithHolder
+import com.skybox.seven.edustat.R
+import com.skybox.seven.edustat.epoxy.BaseEpoxyHolder
+import com.skybox.seven.edustat.model.Course
+
+@EpoxyModelClass(layout = R.layout.model_course)
+abstract class CourseModel: EpoxyModelWithHolder<CourseModel.CourseHolder>() {
+
+    @EpoxyAttribute lateinit var course: Course
+
+    class CourseHolder: BaseEpoxyHolder() {
+        val title by bind<TextView>(R.id.course_title)
+    }
+
+    override fun bind(holder: CourseHolder) {
+        super.bind(holder)
+        holder.title.text = course.displayname
+    }
+
+    override fun getDefaultLayout(): Int = R.layout.model_course
+
+    override fun createNewHolder(): CourseHolder = CourseHolder()
+}
