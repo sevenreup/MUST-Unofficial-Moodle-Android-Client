@@ -1,6 +1,7 @@
 package com.skybox.seven.edustat.api
 
 import com.skybox.seven.edustat.model.AuthResponse
+import com.skybox.seven.edustat.model.Course
 import com.skybox.seven.edustat.model.Site
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
@@ -14,5 +15,5 @@ interface MoodleService {
     fun getSite(): Single<Site>
 
     @GET("webservice/rest/server.php?wsfunction=core_enrol_get_users_courses")
-    fun getCourses(@Query("userid") id: String)
+    fun getCourses(@Query("userid") id: String): Single<Course>
 }
