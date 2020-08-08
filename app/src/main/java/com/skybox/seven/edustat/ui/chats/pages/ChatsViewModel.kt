@@ -7,25 +7,34 @@ import com.skybox.seven.edustat.api.MoodleService
 import com.skybox.seven.edustat.model.Conversation
 import com.skybox.seven.edustat.repository.PrefRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ChatsViewModel @ViewModelInject constructor(private val moodleService: MoodleService,
-                                                  private val  prefRepository: PrefRepository): ViewModel() {
+                                                  private val  prefRepository: PrefRepository,
+                                                  private val compositeDisposable: CompositeDisposable): ViewModel() {
     val chatList:MutableLiveData<List<Conversation>> = MutableLiveData()
 
     fun getConversations() {
-        moodleService.getAllChats(prefRepository.getUserID(), 0, 20, 1)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if (it != null)
-                        chatList.value = it.conversations
-                    else
-                        chatList.value = ArrayList()
-                },
-                {
-                    it.printStackTrace()
-                })
+        compositeDisposable.add(
+            moodleService.getAllChats(prefRepository.getUserID(), 0, 20, 1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        if (it != null)
+                            chatList.value = it.conversations
+                        else
+                            chatList.value = ArrayList()
+                    },
+                    {
+                        it.printStackTrace()
+                    })
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }
