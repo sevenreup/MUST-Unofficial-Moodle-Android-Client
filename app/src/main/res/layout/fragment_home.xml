@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:textAppearance="?textAppearanceSubtitle1"
         android:text="Hello, FirstName"/>
 
     <TextView android:id="@+id/question"
@@ -21,6 +22,8 @@
         app:layout_constraintTop_toBottomOf="@id/user_greeting"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="8dp"
+        android:textAppearance="?textAppearanceHeadline4"
+        android:textStyle="bold"
         android:text="What do you \nwant to learn\ntoday?"/>
 
     <com.airbnb.epoxy.EpoxyRecyclerView android:id="@+id/recycler"
