@@ -20,6 +20,7 @@ class ChatsController : Typed2EpoxyController<Boolean, List<Conversation>>() {
                     .image(image)
                     .lastMessage(lastMessage)
                     .name(username)
+                    .preloading(true)
                     .listener { _, _, _, position ->
                     }.addTo(this)
             }

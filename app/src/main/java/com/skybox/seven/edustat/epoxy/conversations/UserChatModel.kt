@@ -19,22 +19,27 @@ abstract class UserChatModel : EpoxyModelWithHolder<UserChatModel.UserChatHolder
     @EpoxyAttribute lateinit var lastMessage: String
     @EpoxyAttribute lateinit var image: String
     @EpoxyAttribute
-    var preloading: Boolean = false
+    var preloading: Boolean = true
 
     class UserChatHolder: BaseEpoxyHolder(), Preloadable {
-        private val image by bind<ImageView>(R.id.user_image)
+        val image by bind<ImageView>(R.id.user_image)
         val username by bind<TextView>(R.id.user_name)
         val lastMessage by bind<TextView>(R.id.last_message)
         override val viewsToPreload by lazy { listOf(image) }
-        val glide by lazy { Glide.with(image) }
+        val glide by lazy { Glide.with(image.context) }
     }
 
     override fun bind(holder: UserChatHolder) {
         super.bind(holder)
         holder.username.text = name
         holder.lastMessage.text = lastMessage
-        holder.glide.loadImage(image, preloading)
+        holder.glide.loadImage(image, preloading).into(holder.image)
         holder.setViewClickListener(listener)
+    }
+
+    override fun unbind(holder: UserChatHolder) {
+        holder.glide.clear(holder.image)
+        holder.image.setImageDrawable(null)
     }
 
     override fun getDefaultLayout(): Int = R.layout.model_user_chat
