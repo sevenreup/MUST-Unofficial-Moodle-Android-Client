@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.skybox.seven.edustat.databinding.FragmentHomeBinding
 import com.skybox.seven.edustat.epoxy.controllers.HomeController
+import com.skybox.seven.edustat.util.GridSpacingItemDecoration
+import com.skybox.seven.edustat.util.SpacesItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,6 +36,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.recycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.recycler.addItemDecoration(GridSpacingItemDecoration(2, 40, true, 0))
         binding.recycler.setController(homeController)
         return binding.root
     }
