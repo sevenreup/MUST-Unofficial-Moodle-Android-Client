@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.skybox.seven.edustat.api.MoodleService
 import com.skybox.seven.edustat.model.Conversation
 import com.skybox.seven.edustat.repository.PrefRepository
+import com.skybox.seven.edustat.util.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -17,7 +18,7 @@ class ChatsViewModel @ViewModelInject constructor(private val moodleService: Moo
 
     fun getConversations() {
         compositeDisposable.add(
-            moodleService.getAllChats(prefRepository.getUserID(), 0, 20, 1)
+            moodleService.getAllChats(prefRepository.getUserID(), 0, 20, Constants.MESSAGE_CONVERSATION_TYPE_INDIVIDUAL,0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

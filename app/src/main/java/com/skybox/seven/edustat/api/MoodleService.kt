@@ -36,18 +36,20 @@ interface MoodleService {
     /**
      * Get all user chats without the complicated params
      * @param mergeSelf (whether to include self-conversations (true) or ONLY private conversations (false) when private conversations are requested.)
+     * @param type (the type of the conversation, if you wish to filter to a certain type (see api constants).)
+     * can get groups/self by changing param {type} @link Constants
      */
     @GET("webservice/rest/server.php?wsfunction=core_message_get_conversations")
     fun getAllChats(@Query("userid") id: Int, @Query("limitfrom") limitFrom: Int,
-                    @Query("limitnum") limitNum: Int, @Query("mergeself") mergeSelf: Int): Single<ConversationResponse>
+                    @Query("limitnum") limitNum: Int, @Query("type") type: Int ,@Query("mergeself") mergeSelf: Int): Single<ConversationResponse>
 
     /**
      * Get all user chats with the complicated params
-     * @param type (the type of the conversation, if you wish to filter to a certain type (see api constants).)
      * @param favorites (whether to include NO favourites (false) or ONLY favourites (true), or null to ignore this setting.)
+     * exactly the same as above but now can get favorites of different type
      */
     @GET("webservice/rest/server.php?wsfunction=core_message_get_conversations")
-    fun getAllChats(@Query("userid") id: Int, @Query("limitfrom") limitFrom: Int,
+    fun getAllFavorites(@Query("userid") id: Int, @Query("limitfrom") limitFrom: Int,
                     @Query("limitnum") limitNum: Int, @Query("type") type: Int,
                     @Query("favourites") favorites: Int, @Query("mergeself") mergeSelf: Int): Single<ConversationResponse>
 }
