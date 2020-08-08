@@ -1,5 +1,6 @@
 package com.skybox.seven.edustat.epoxy.conversations
 
+import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -33,7 +34,8 @@ abstract class UserChatModel : EpoxyModelWithHolder<UserChatModel.UserChatHolder
     override fun bind(holder: UserChatHolder) {
         super.bind(holder)
         holder.username.text = name
-        holder.lastMessage.text = lastMessage
+        // todo: add better html span support
+        holder.lastMessage.text = Html.fromHtml(lastMessage)
         holder.time.text = date
 
         holder.glide.loadImage(image, preloading)
