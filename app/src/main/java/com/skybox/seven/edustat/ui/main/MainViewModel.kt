@@ -11,7 +11,7 @@ class MainViewModel @ViewModelInject constructor(
     siteRepository: SiteRepository,
     private val prefRepository: PrefRepository
 ): ViewModel() {
-    var siteData: LiveData<Site> = siteRepository.getSite(prefRepository.getSite())
+    var siteData: LiveData<Site> = siteRepository.getSite(prefRepository.getUserID())
 
     fun getSiteData(): String {
         return prefRepository.getToken()!!

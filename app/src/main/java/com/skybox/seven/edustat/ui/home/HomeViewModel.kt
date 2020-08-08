@@ -18,7 +18,7 @@ class HomeViewModel @ViewModelInject constructor(private val moodleService: Mood
 ):
     ViewModel() {
     val courseList: MutableLiveData<List<Course>> = MutableLiveData()
-    val siteInfo: LiveData<Site> = siteRepository.getSite(prefRepository.getSite())
+    val siteInfo: LiveData<Site> = siteRepository.getSite(prefRepository.getUserID())
 
     fun getCourseList(userId: Int) {
         moodleService.getCourses(userId)

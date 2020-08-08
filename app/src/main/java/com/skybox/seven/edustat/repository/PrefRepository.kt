@@ -38,12 +38,12 @@ class PrefRepository (private val prefs: SharedPreferences) {
             putString(PRIVATE_TOKEN, authResponse.privatetoken)
         }
 
-    fun saveSite(site: Int): Completable = prefSubject.firstOrError().editSharedPreferences {
-            putInt(SITE_ID, site)
+    fun saveSiteUserID(site: Int): Completable = prefSubject.firstOrError().editSharedPreferences {
+            putInt(USER_ID, site)
 
     }
 
-    fun getSite (): Int = prefs.getInt(SITE_ID, 0)
+    fun getUserID (): Int = prefs.getInt(USER_ID, 0)
     fun getToken (): String? = prefs.getString(ACCESS_TOKEN, null)
 
     fun Single<SharedPreferences>.editSharedPreferences(batch: SharedPreferences.Editor.() -> Unit): Completable =
@@ -62,7 +62,7 @@ class PrefRepository (private val prefs: SharedPreferences) {
     companion object {
         const val ACCESS_TOKEN = "MOODLE_TOKEN"
         const val PRIVATE_TOKEN = "MOODLE_PRIVATE_TOKEN"
-        const val SITE_ID = "MOODLE_SITE_USER_ID"
+        const val USER_ID = "MOODLE_SITE_USER_ID"
         const val PREFS = "MUST_MOODLE_SELF_ANDROID"
     }
 }

@@ -34,7 +34,7 @@ class LoginViewModel @ViewModelInject constructor(
                     }.flatMap {
                         siteRepository.insertSite(it).andThen(Single.just(it))
                     }.flatMap {
-                        prefRepository.saveSite(it.userId).andThen(Single.just(it))
+                        prefRepository.saveSiteUserID(it.userId).andThen(Single.just(it))
                     }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
