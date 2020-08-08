@@ -3,6 +3,7 @@ package com.skybox.seven.edustat.epoxy.controllers
 import com.airbnb.epoxy.Typed2EpoxyController
 import com.skybox.seven.edustat.epoxy.conversations.UserChatModel_
 import com.skybox.seven.edustat.model.Conversation
+import com.skybox.seven.edustat.util.chatDateRelative
 
 private const val TAG = "ChatsController"
 
@@ -21,6 +22,7 @@ class ChatsController : Typed2EpoxyController<Boolean, List<Conversation>>() {
                     .lastMessage(lastMessage)
                     .name(username)
                     .preloading(true)
+                    .date(chatDateRelative(it.messages[0].timecreated))
                     .listener { _, _, _, position ->
                     }.addTo(this)
             }

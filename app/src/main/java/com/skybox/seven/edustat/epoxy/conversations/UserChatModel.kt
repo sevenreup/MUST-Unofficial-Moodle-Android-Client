@@ -18,13 +18,14 @@ abstract class UserChatModel : EpoxyModelWithHolder<UserChatModel.UserChatHolder
     @EpoxyAttribute lateinit var name: String
     @EpoxyAttribute lateinit var lastMessage: String
     @EpoxyAttribute lateinit var image: String
-    @EpoxyAttribute
-    var preloading: Boolean = true
+    @EpoxyAttribute var preloading: Boolean = true
+    @EpoxyAttribute lateinit var date: String
 
     class UserChatHolder: BaseEpoxyHolder(), Preloadable {
         val image by bind<ImageView>(R.id.user_image)
         val username by bind<TextView>(R.id.user_name)
         val lastMessage by bind<TextView>(R.id.last_message)
+        val time by bind<TextView>(R.id.time)
         override val viewsToPreload by lazy { listOf(image) }
         val glide by lazy { Glide.with(image.context) }
     }
@@ -33,7 +34,11 @@ abstract class UserChatModel : EpoxyModelWithHolder<UserChatModel.UserChatHolder
         super.bind(holder)
         holder.username.text = name
         holder.lastMessage.text = lastMessage
-        holder.glide.loadImage(image, preloading).into(holder.image)
+        holder.time.text = date
+
+        holder.glide.loadImage(image, preloading)
+            .circleCrop()
+            .into(holder.image)
         holder.setViewClickListener(listener)
     }
 

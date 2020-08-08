@@ -1,33 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="12dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView android:id="@+id/user_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="John Doe"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="?textAppearanceSubtitle1"
+        app:layout_constraintStart_toEndOf="@id/user_image"
+        app:layout_constraintTop_toTopOf="@id/user_image"
+        app:layout_constraintEnd_toStartOf="@id/time"
+        app:layout_constraintBottom_toTopOf="@id/last_message"
+        android:layout_marginStart="10dp"/>
 
-        <TextView android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="John Doe"
-            android:textAppearance="?textAppearanceSubtitle1"
-            app:layout_constraintStart_toEndOf="@id/user_image"
-            app:layout_constraintTop_toTopOf="@id/user_image"/>
+    <TextView
+        android:id="@+id/last_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Hello, Bro"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="?textAppearanceBody1"
+        app:layout_constraintStart_toStartOf="@id/user_name"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        app:layout_constraintBottom_toBottomOf="@id/user_image"
+        app:layout_constraintEnd_toStartOf="@id/read_count"/>
 
-        <TextView android:id="@+id/last_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello, Bro"
-            android:textAppearance="?textAppearanceBody1"
-            app:layout_constraintStart_toEndOf="@id/user_image"
-            app:layout_constraintTop_toBottomOf="@id/user_name"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    <TextView android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/user_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="3:00 PM"/>
+
+    <TextView android:id="@+id/read_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
