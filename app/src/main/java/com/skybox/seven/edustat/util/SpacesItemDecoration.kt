@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 
-class SpacesItemDecoration @JvmOverloads constructor(private val space: Int) : ItemDecoration() {
+class SpacesItemDecoration constructor(private val space: Int) : ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,

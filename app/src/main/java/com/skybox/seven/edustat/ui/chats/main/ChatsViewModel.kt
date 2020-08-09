@@ -1,4 +1,4 @@
-package com.skybox.seven.edustat.ui.chats.pages
+package com.skybox.seven.edustat.ui.chats.main
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData

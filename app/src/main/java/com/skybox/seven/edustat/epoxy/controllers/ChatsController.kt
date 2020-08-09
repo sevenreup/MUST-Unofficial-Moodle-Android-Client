@@ -1,13 +1,15 @@
 package com.skybox.seven.edustat.epoxy.controllers
 
+import android.view.View
 import com.airbnb.epoxy.Typed2EpoxyController
 import com.skybox.seven.edustat.epoxy.conversations.UserChatModel_
 import com.skybox.seven.edustat.model.Conversation
-import com.skybox.seven.edustat.util.chatDateRelative
+import com.skybox.seven.edustat.model.Member
+import com.skybox.seven.edustat.util.DateHelper
 
 private const val TAG = "ChatsController"
 
-class ChatsController : Typed2EpoxyController<Boolean, List<Conversation>>() {
+class ChatsController(private val callbacks: ChatsCallBack) : Typed2EpoxyController<Boolean, List<Conversation>>() {
     override fun buildModels(loading: Boolean?, conversations: List<Conversation>?) {
 
         conversations?.forEach {
@@ -22,10 +24,14 @@ class ChatsController : Typed2EpoxyController<Boolean, List<Conversation>>() {
                     .lastMessage(lastMessage)
                     .name(username)
                     .preloading(true)
-                    .date(chatDateRelative(it.messages[0].timecreated))
-                    .listener { _, _, _, position ->
+                    .date(DateHelper.chatDateRelative(it.messages[0].timecreated))
+                    .listener { _, _, view,_ -> callbacks.chatClicked(it.id,it.members[0], view)
                     }.addTo(this)
             }
         }
+    }
+
+    interface ChatsCallBack {
+        fun chatClicked(id: Int, member: Member, view: View)
     }
 }

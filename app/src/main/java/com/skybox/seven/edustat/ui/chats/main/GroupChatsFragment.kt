@@ -1,4 +1,4 @@
-package com.skybox.seven.edustat.ui.chats.pages
+package com.skybox.seven.edustat.ui.chats.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

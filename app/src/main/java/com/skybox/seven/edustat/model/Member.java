@@ -1,10 +1,13 @@
 package com.skybox.seven.edustat.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.squareup.moshi.Json;
 
 import java.util.List;
 
-public class Member {
+public class Member implements Parcelable {
 
     @Json(name = "id")
     private Integer id;
@@ -32,6 +35,40 @@ public class Member {
     private Object requirescontact;
     @Json(name = "contactrequests")
     private List<Object> contactrequests = null;
+
+    protected Member(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        fullname = in.readString();
+        profileurl = in.readString();
+        profileimageurl = in.readString();
+        profileimageurlsmall = in.readString();
+        byte tmpIsonline = in.readByte();
+        isonline = tmpIsonline == 0 ? null : tmpIsonline == 1;
+        byte tmpShowonlinestatus = in.readByte();
+        showonlinestatus = tmpShowonlinestatus == 0 ? null : tmpShowonlinestatus == 1;
+        byte tmpIsblocked = in.readByte();
+        isblocked = tmpIsblocked == 0 ? null : tmpIsblocked == 1;
+        byte tmpIscontact = in.readByte();
+        iscontact = tmpIscontact == 0 ? null : tmpIscontact == 1;
+        byte tmpIsdeleted = in.readByte();
+        isdeleted = tmpIsdeleted == 0 ? null : tmpIsdeleted == 1;
+    }
+
+    public static final Creator<Member> CREATOR = new Creator<Member>() {
+        @Override
+        public Member createFromParcel(Parcel in) {
+            return new Member(in);
+        }
+
+        @Override
+        public Member[] newArray(int size) {
+            return new Member[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -137,4 +174,27 @@ public class Member {
         this.contactrequests = contactrequests;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(fullname);
+        dest.writeString(profileurl);
+        dest.writeString(profileimageurl);
+        dest.writeString(profileimageurlsmall);
+        dest.writeByte((byte) (isonline == null ? 0 : isonline ? 1 : 2));
+        dest.writeByte((byte) (showonlinestatus == null ? 0 : showonlinestatus ? 1 : 2));
+        dest.writeByte((byte) (isblocked == null ? 0 : isblocked ? 1 : 2));
+        dest.writeByte((byte) (iscontact == null ? 0 : iscontact ? 1 : 2));
+        dest.writeByte((byte) (isdeleted == null ? 0 : isdeleted ? 1 : 2));
+    }
 }

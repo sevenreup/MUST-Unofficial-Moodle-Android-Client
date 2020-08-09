@@ -1,9 +1,6 @@
 package com.skybox.seven.edustat.api
 
-import com.skybox.seven.edustat.model.AuthResponse
-import com.skybox.seven.edustat.model.ConversationResponse
-import com.skybox.seven.edustat.model.Course
-import com.skybox.seven.edustat.model.Site
+import com.skybox.seven.edustat.model.*
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -52,4 +49,13 @@ interface MoodleService {
     fun getAllFavorites(@Query("userid") id: Int, @Query("limitfrom") limitFrom: Int,
                     @Query("limitnum") limitNum: Int, @Query("type") type: Int,
                     @Query("favourites") favorites: Int, @Query("mergeself") mergeSelf: Int): Single<ConversationResponse>
+
+    /**
+     * Get all messages in Chat
+     * This is different from the Doc (Don't know why).
+     * This implementation is taken from the official app
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_message_get_conversation_messages")
+    fun getAllMessagesInChat(@Query("currentuserid") userId: Int, @Query("convid") convId: Int, @Query("limitfrom") limitFrom: Int,
+                   @Query("limitnum") limitNum: Int, @Query("newest") newest: Int): Single<Chat>
 }

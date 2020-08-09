@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.skybox.seven.edustat.ui.chats.pages.ChatsFragment
-import com.skybox.seven.edustat.ui.chats.pages.GroupChatsFragment
+import com.skybox.seven.edustat.ui.chats.main.ChatsFragment
+import com.skybox.seven.edustat.ui.chats.main.GroupChatsFragment
 
 class ConversationsAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int = 2
