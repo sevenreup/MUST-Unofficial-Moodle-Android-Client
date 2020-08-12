@@ -1,9 +1,12 @@
 package com.skybox.seven.edustat.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 import com.squareup.moshi.Json;
 
-public class Course {
+public class Course implements Parcelable {
 
     @Json(name = "id")
     private Integer id;
@@ -53,6 +56,92 @@ public class Course {
     private Boolean isfavourite;
     @Json(name = "hidden")
     private Boolean hidden;
+
+    protected Course(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        shortname = in.readString();
+        fullname = in.readString();
+        displayname = in.readString();
+        if (in.readByte() == 0) {
+            enrolledusercount = null;
+        } else {
+            enrolledusercount = in.readInt();
+        }
+        idnumber = in.readString();
+        if (in.readByte() == 0) {
+            visible = null;
+        } else {
+            visible = in.readInt();
+        }
+        summary = in.readString();
+        if (in.readByte() == 0) {
+            summaryformat = null;
+        } else {
+            summaryformat = in.readInt();
+        }
+        format = in.readString();
+        byte tmpShowgrades = in.readByte();
+        showgrades = tmpShowgrades == 0 ? null : tmpShowgrades == 1;
+        lang = in.readString();
+        byte tmpEnablecompletion = in.readByte();
+        enablecompletion = tmpEnablecompletion == 0 ? null : tmpEnablecompletion == 1;
+        byte tmpCompletionhascriteria = in.readByte();
+        completionhascriteria = tmpCompletionhascriteria == 0 ? null : tmpCompletionhascriteria == 1;
+        byte tmpCompletionusertracked = in.readByte();
+        completionusertracked = tmpCompletionusertracked == 0 ? null : tmpCompletionusertracked == 1;
+        if (in.readByte() == 0) {
+            category = null;
+        } else {
+            category = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            progress = null;
+        } else {
+            progress = in.readDouble();
+        }
+        byte tmpCompleted = in.readByte();
+        completed = tmpCompleted == 0 ? null : tmpCompleted == 1;
+        if (in.readByte() == 0) {
+            startdate = null;
+        } else {
+            startdate = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            enddate = null;
+        } else {
+            enddate = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            marker = null;
+        } else {
+            marker = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            lastaccess = null;
+        } else {
+            lastaccess = in.readInt();
+        }
+        byte tmpIsfavourite = in.readByte();
+        isfavourite = tmpIsfavourite == 0 ? null : tmpIsfavourite == 1;
+        byte tmpHidden = in.readByte();
+        hidden = tmpHidden == 0 ? null : tmpHidden == 1;
+    }
+
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
+        @Override
+        public Course createFromParcel(Parcel in) {
+            return new Course(in);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -246,4 +335,86 @@ public class Course {
         this.hidden = hidden;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(shortname);
+        dest.writeString(fullname);
+        dest.writeString(displayname);
+        if (enrolledusercount == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(enrolledusercount);
+        }
+        dest.writeString(idnumber);
+        if (visible == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(visible);
+        }
+        dest.writeString(summary);
+        if (summaryformat == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(summaryformat);
+        }
+        dest.writeString(format);
+        dest.writeByte((byte) (showgrades == null ? 0 : showgrades ? 1 : 2));
+        dest.writeString(lang);
+        dest.writeByte((byte) (enablecompletion == null ? 0 : enablecompletion ? 1 : 2));
+        dest.writeByte((byte) (completionhascriteria == null ? 0 : completionhascriteria ? 1 : 2));
+        dest.writeByte((byte) (completionusertracked == null ? 0 : completionusertracked ? 1 : 2));
+        if (category == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(category);
+        }
+        if (progress == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(progress);
+        }
+        dest.writeByte((byte) (completed == null ? 0 : completed ? 1 : 2));
+        if (startdate == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(startdate);
+        }
+        if (enddate == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(enddate);
+        }
+        if (marker == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(marker);
+        }
+        if (lastaccess == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(lastaccess);
+        }
+        dest.writeByte((byte) (isfavourite == null ? 0 : isfavourite ? 1 : 2));
+        dest.writeByte((byte) (hidden == null ? 0 : hidden ? 1 : 2));
+    }
 }

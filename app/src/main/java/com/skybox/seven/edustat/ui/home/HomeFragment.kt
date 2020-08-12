@@ -7,18 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.skybox.seven.edustat.databinding.FragmentHomeBinding
 import com.skybox.seven.edustat.epoxy.controllers.HomeController
+import com.skybox.seven.edustat.model.Course
 import com.skybox.seven.edustat.util.GridSpacingItemDecoration
 import com.skybox.seven.edustat.util.SpacesItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeController.CourseCallbacks{
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
-    private val homeController = HomeController()
+    private val homeController = HomeController(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,5 +42,10 @@ class HomeFragment : Fragment() {
         binding.recycler.addItemDecoration(GridSpacingItemDecoration(2, 40, true, 0))
         binding.recycler.setController(homeController)
         return binding.root
+    }
+
+    override fun onCourseClick(course: Course, view: View) {
+        val action = HomeFragmentDirections.actionStartScreenToCourseFragment(course)
+        findNavController().navigate(action)
     }
 }

@@ -69,6 +69,8 @@ dependencies {
     // lottie
     implementation "com.airbnb.android:lottie:$versions.lottieVersion"
 
+    implementation 'com.github.owl-93:DeterminateProgressView:1.4.0'
+
     // Android room database
     implementation "androidx.room:room-runtime:$versions.room_version"
     kapt "androidx.room:room-compiler:$versions.room_version"

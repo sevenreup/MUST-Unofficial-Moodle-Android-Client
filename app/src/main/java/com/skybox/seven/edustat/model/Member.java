@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.squareup.moshi.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Member implements Parcelable {
@@ -34,7 +35,7 @@ public class Member implements Parcelable {
     @Json(name = "requirescontact")
     private Object requirescontact;
     @Json(name = "contactrequests")
-    private List<Object> contactrequests = null;
+    private List<Object> contactrequests = new ArrayList<>();
 
     protected Member(Parcel in) {
         if (in.readByte() == 0) {

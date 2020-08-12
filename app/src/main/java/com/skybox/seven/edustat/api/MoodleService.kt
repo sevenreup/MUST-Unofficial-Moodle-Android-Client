@@ -31,6 +31,12 @@ interface MoodleService {
     fun getCourses(@Query("userid") id: Int): Single<List<Course>>
 
     /**
+     * Get course information
+     * param
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_course_get_contents")
+    fun getCourseContent(@Query("courseid") courseID: Int): Single<List<Section>>
+    /**
      * Get all user chats without the complicated params
      * @param mergeSelf (whether to include self-conversations (true) or ONLY private conversations (false) when private conversations are requested.)
      * @param type (the type of the conversation, if you wish to filter to a certain type (see api constants).)
