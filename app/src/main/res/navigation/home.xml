@@ -22,5 +22,17 @@
         <argument
             android:name="course"
             app:argType="com.skybox.seven.edustat.model.Course" />
+        <action
+            android:id="@+id/action_courseFragment_to_sectionFragment"
+            app:destination="@id/sectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sectionFragment"
+        android:name="com.skybox.seven.edustat.ui.section.SectionFragment"
+        android:label="fragment_section"
+        tools:layout="@layout/fragment_section" >
+        <argument
+            android:name="section"
+            app:argType="com.skybox.seven.edustat.model.Section" />
     </fragment>
 </navigation>

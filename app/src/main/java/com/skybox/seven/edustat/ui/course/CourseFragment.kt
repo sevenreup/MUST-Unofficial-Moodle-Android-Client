@@ -10,10 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.skybox.seven.edustat.databinding.FragmentCourseBinding
 import com.skybox.seven.edustat.epoxy.controllers.CourseController
+import com.skybox.seven.edustat.model.Section
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CourseFragment : Fragment() {
+class CourseFragment : Fragment(), CourseController.SessionCallback{
     private lateinit var binding: FragmentCourseBinding
     private val viewModel: CourseViewModel by viewModels()
     lateinit var args: CourseFragmentArgs
@@ -22,7 +23,7 @@ class CourseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         args = CourseFragmentArgs.fromBundle(requireArguments())
-        controller = CourseController()
+        controller = CourseController(this)
         viewModel.courseSections.observe(this, Observer {
             controller.setData(false, it)
         })
@@ -42,5 +43,10 @@ class CourseFragment : Fragment() {
 
     fun navigateBack() {
         findNavController().navigateUp()
+    }
+
+    override fun onSectionClick(section: Section, view: View) {
+        val action = CourseFragmentDirections.actionCourseFragmentToSectionFragment(section);
+        findNavController().navigate(action)
     }
 }

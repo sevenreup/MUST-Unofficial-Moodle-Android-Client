@@ -15,7 +15,7 @@ import com.skybox.seven.edustat.epoxy.BaseEpoxyHolder
 @EpoxyModelClass(layout = R.layout.model_section_overview)
 abstract class SectionOverViewModel :
     EpoxyModelWithHolder<SectionOverViewModel.SectionOverViewHolder>() {
-
+    @EpoxyAttribute var listener: View.OnClickListener? = null
     @EpoxyAttribute
     lateinit var section: SectionContainer
 
@@ -46,6 +46,7 @@ abstract class SectionOverViewModel :
             holder.forum.text = section.forum.toString()
             holder.pdf.text = section.pdf.toString()
             holder.firstType.setImageResource(section.firstType)
+            listener?.let { holder.setViewClickListener(it) }
         } else {
             holder.firstModule.visibility = View.GONE
             holder.countModule.visibility = View.GONE
