@@ -38,7 +38,7 @@ public class Course {
     @Json(name = "category")
     private Integer category;
     @Json(name = "progress")
-    private Integer progress;
+    private Double progress;
     @Json(name = "completed")
     private Boolean completed;
     @Json(name = "startdate")
@@ -182,11 +182,11 @@ public class Course {
         this.category = category;
     }
 
-    public Integer getProgress() {
+    public Double getProgress() {
         return progress;
     }
 
-    public void setProgress(Integer progress) {
+    public void setProgress(Double progress) {
         this.progress = progress;
     }
 

@@ -14,13 +14,14 @@ class ChatController(private val userId: Int): Typed2EpoxyController<Boolean, Li
         messages.forEach {
                 message ->
             val date = Date(message.timecreated.toLong() * 1000)
-            addDateSeparator(date)
+
             MessageSelfModel_()
                 .id(message.id)
                 .text(message.text)
                 .time(DateHelper.getTime(date))
                 .self(userId == message.useridfrom)
                 .addTo(this)
+            addDateSeparator(date)
         }
     }
 

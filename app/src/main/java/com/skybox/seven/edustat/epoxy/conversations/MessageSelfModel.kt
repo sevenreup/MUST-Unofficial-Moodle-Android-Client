@@ -1,5 +1,7 @@
 package com.skybox.seven.edustat.epoxy.conversations
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.text.Html
 import android.widget.TextView
 import androidx.constraintlayout.solver.state.State
@@ -23,19 +25,26 @@ abstract class MessageSelfModel: EpoxyModelWithHolder<MessageSelfModel.MessageSe
         val time by bind<TextView>(R.id.time)
         val holder by bind<ConstraintLayout>(R.id.model_holder)
         val card by bind<MaterialCardView>(R.id.message_holder)
+        val bg by bind<ConstraintLayout>(R.id.message_bg)
     }
 
     override fun bind(holder: MessageSelfHolder) {
         super.bind(holder)
         holder.message.text = Html.fromHtml(text)
         holder.time.text = time
+
         if (self) {
             val constraintSet = ConstraintSet()
             constraintSet.clone(holder.holder)
             constraintSet.connect(R.id.message_holder, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
             constraintSet.clear(R.id.message_holder, ConstraintSet.START)
             constraintSet.applyTo(holder.holder)
+
+            val colors = intArrayOf(Color.parseColor("#008000"), Color.parseColor("#ADFF2F"))
+            val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors)
+            holder.bg.background = gradientDrawable
         }
+
     }
 
     override fun getDefaultLayout(): Int = R.layout.model_message_self
