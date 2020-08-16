@@ -11,7 +11,8 @@ buildscript {
             hiltAndroidXVersion: '1.0.0-alpha02',
             navigation: '2.3.0',
             lottieVersion: '3.4.1',
-            epoxyVersion: '3.11.0'
+            epoxyVersion: '3.11.0',
+            okdownload: '1.0.7'
     ]
     repositories {
         google()

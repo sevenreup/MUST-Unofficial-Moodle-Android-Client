@@ -100,6 +100,13 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
 
+    // download manager
+    implementation "com.liulishuo.okdownload:okdownload:$versions.okdownload"
+    implementation "com.liulishuo.okdownload:sqlite:$versions.okdownload"
+    implementation "com.liulishuo.okdownload:okhttp:$versions.okdownload"
+    implementation "com.liulishuo.okdownload:filedownloader:$versions.okdownload"
+    implementation "com.liulishuo.okdownload:ktx:$versions.okdownload"
+
     // test
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
