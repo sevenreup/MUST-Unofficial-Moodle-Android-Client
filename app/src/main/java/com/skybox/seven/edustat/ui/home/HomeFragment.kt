@@ -1,6 +1,7 @@
 package com.skybox.seven.edustat.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), HomeController.CourseCallbacks{
-    private val viewModel: HomeViewModel by viewModels()
+    val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
     private val homeController = HomeController(this)
 
@@ -38,6 +39,8 @@ class HomeFragment : Fragment(), HomeController.CourseCallbacks{
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.fragment = this
         binding.recycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recycler.addItemDecoration(GridSpacingItemDecoration(2, 40, true, 0))
         binding.recycler.setController(homeController)
