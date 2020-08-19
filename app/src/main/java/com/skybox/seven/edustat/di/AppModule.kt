@@ -3,8 +3,10 @@ package com.skybox.seven.edustat.di
 import android.content.Context
 import androidx.room.Room
 import com.liulishuo.okdownload.DownloadContext
+import com.liulishuo.okdownload.UnifiedListenerManager
 import com.skybox.seven.edustat.api.MoodleInterceptor
 import com.skybox.seven.edustat.api.MoodleService
+import com.skybox.seven.edustat.data.DownloadsDAO
 import com.skybox.seven.edustat.data.MoodleDB
 import com.skybox.seven.edustat.data.SiteDAO
 import com.skybox.seven.edustat.repository.PrefRepository
@@ -69,6 +71,10 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideDownloadsDAO(moodleDB: MoodleDB): DownloadsDAO = moodleDB.downloadsDAO()
+
+    @Provides
+    @Singleton
     fun providesDownloadBuilder(@ApplicationContext context: Context): DownloadContext.Builder =
         DownloadContext.QueueSet()
             .setParentPathFile(File(getParentFile(context), "moodle_noodle"))
@@ -76,5 +82,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesDownloadListener() = MoodleDownloadListener()
+    fun providesDownloadListener() = UnifiedListenerManager()
 }

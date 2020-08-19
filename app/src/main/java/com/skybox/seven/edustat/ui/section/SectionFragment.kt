@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import com.skybox.seven.edustat.R
 import com.skybox.seven.edustat.databinding.FragmentSectionBinding
 import com.skybox.seven.edustat.epoxy.controllers.SectionController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SectionFragment : Fragment() {
     private lateinit var binding: FragmentSectionBinding
     lateinit var args: SectionFragmentArgs
@@ -19,6 +21,7 @@ class SectionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         args = SectionFragmentArgs.fromBundle(requireArguments())
+        viewModel.modules.value = args.section.modules
         controller.setData(false, args.section.modules)
     }
 
@@ -31,6 +34,10 @@ class SectionFragment : Fragment() {
         binding.fragment = this
         binding.recycler.setController(controller)
         return binding.root
+    }
+
+    fun startDownload() {
+        viewModel.downloadAll(requireContext())
     }
 
 }

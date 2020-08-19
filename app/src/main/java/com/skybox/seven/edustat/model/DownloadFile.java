@@ -1,16 +1,31 @@
 package com.skybox.seven.edustat.model;
 
-public class DownloadFiles {
-    private Integer taskId;
-    private Integer courseId;
-    private Integer sectionId;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "downloads")
+public class DownloadFile {
+    @PrimaryKey
     private Integer moduleId;
+    @ColumnInfo
+    private Integer taskId;
+    @ColumnInfo
+    private Integer courseId;
+    @ColumnInfo
+    private Integer sectionId;
+    @ColumnInfo
     private String mimeType;
+    @ColumnInfo
     private String fileUrl;
+    @ColumnInfo
     private String filename;
+    @ColumnInfo
     private String type;
+    @ColumnInfo
     private Integer fileSize;
-    private Boolean downloaded;
+    @ColumnInfo
+    private Boolean downloaded = false;
 
     public Integer getTaskId() {
         return taskId;

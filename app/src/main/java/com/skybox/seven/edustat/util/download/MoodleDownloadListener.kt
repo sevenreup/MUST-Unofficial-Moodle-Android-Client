@@ -1,5 +1,6 @@
 package com.skybox.seven.edustat.util.download
 
+import android.util.Log
 import com.liulishuo.okdownload.DownloadListener
 import com.liulishuo.okdownload.DownloadTask
 import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo
@@ -7,17 +8,18 @@ import com.liulishuo.okdownload.core.cause.EndCause
 import com.liulishuo.okdownload.core.cause.ResumeFailedCause
 import java.lang.Exception
 
+private const val TAG = "MoodleDownloadListener"
 class MoodleDownloadListener(): DownloadListener {
     override fun connectTrialEnd(
         task: DownloadTask,
         responseCode: Int,
         responseHeaderFields: MutableMap<String, MutableList<String>>
     ) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "connectTrialEnd: ${task.tag} code: $responseCode")
     }
 
     override fun fetchEnd(task: DownloadTask, blockIndex: Int, contentLength: Long) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "fetchEnd: ${task.tag} block: $blockIndex length $contentLength")
     }
 
     override fun downloadFromBeginning(
@@ -25,34 +27,35 @@ class MoodleDownloadListener(): DownloadListener {
         info: BreakpointInfo,
         cause: ResumeFailedCause
     ) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "downloadFromBeginning: ${task.tag} info: ${info.filename} length ${cause.name}")
     }
 
     override fun taskStart(task: DownloadTask) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "taskStart: ${task.tag}")
     }
 
     override fun taskEnd(task: DownloadTask, cause: EndCause, realCause: Exception?) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "taskEnd: ${task.tag} cause: ${cause.name}", realCause)
     }
 
     override fun connectTrialStart(
         task: DownloadTask,
         requestHeaderFields: MutableMap<String, MutableList<String>>
     ) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "connectTrialStart: ${task.tag}")
     }
 
     override fun downloadFromBreakpoint(task: DownloadTask, info: BreakpointInfo) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "downloadFromBreakpoint: ${task.tag}")
+
     }
 
     override fun fetchStart(task: DownloadTask, blockIndex: Int, contentLength: Long) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "fetchStart: ${task.tag}")
     }
 
     override fun fetchProgress(task: DownloadTask, blockIndex: Int, increaseBytes: Long) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "fetchProgress: ${task.tag}")
     }
 
     override fun connectEnd(
@@ -61,7 +64,7 @@ class MoodleDownloadListener(): DownloadListener {
         responseCode: Int,
         responseHeaderFields: MutableMap<String, MutableList<String>>
     ) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "connectEnd: ${task.tag}")
     }
 
     override fun connectStart(
@@ -69,6 +72,6 @@ class MoodleDownloadListener(): DownloadListener {
         blockIndex: Int,
         requestHeaderFields: MutableMap<String, MutableList<String>>
     ) {
-        TODO("Not yet implemented")
+        Log.e(TAG, "connectStart: ${task.tag}")
     }
 }
