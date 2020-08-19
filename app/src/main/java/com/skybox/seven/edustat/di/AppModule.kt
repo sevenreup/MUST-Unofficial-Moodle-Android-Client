@@ -2,12 +2,15 @@ package com.skybox.seven.edustat.di
 
 import android.content.Context
 import androidx.room.Room
+import com.liulishuo.okdownload.DownloadContext
 import com.skybox.seven.edustat.api.MoodleInterceptor
 import com.skybox.seven.edustat.api.MoodleService
 import com.skybox.seven.edustat.data.MoodleDB
 import com.skybox.seven.edustat.data.SiteDAO
 import com.skybox.seven.edustat.repository.PrefRepository
 import com.skybox.seven.edustat.util.Constants
+import com.skybox.seven.edustat.util.download.MoodleDownloadListener
+import com.skybox.seven.edustat.util.getParentFile
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.File
 import javax.inject.Singleton
 
 @Module
@@ -63,4 +67,14 @@ object AppModule {
     @Singleton
     fun provideSiteDAO(moodleDB: MoodleDB): SiteDAO = moodleDB.siteDAO()
 
+    @Provides
+    @Singleton
+    fun providesDownloadBuilder(@ApplicationContext context: Context): DownloadContext.Builder =
+        DownloadContext.QueueSet()
+            .setParentPathFile(File(getParentFile(context), "moodle_noodle"))
+            .setMinIntervalMillisCallbackProcess(300).commit()
+
+    @Provides
+    @Singleton
+    fun providesDownloadListener() = MoodleDownloadListener()
 }

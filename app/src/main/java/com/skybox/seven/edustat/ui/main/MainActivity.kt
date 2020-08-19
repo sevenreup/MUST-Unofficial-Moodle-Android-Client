@@ -11,6 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.liulishuo.okdownload.DownloadContext
+import com.liulishuo.okdownload.OkDownload
 import com.skybox.seven.edustat.R
 import com.skybox.seven.edustat.databinding.ActivityMainBinding
 import com.skybox.seven.edustat.util.setupWithNavController
@@ -41,11 +43,6 @@ class MainActivity : AppCompatActivity() {
             containerId = R.id.nav_host_fragment,
             intent = intent
         )
-
-//        controllers.observe(this, Observer {
-//            setupActionBarWithNavController(it)
-//        })
-
         currentNavController = controllers
     }
 
