@@ -2,6 +2,7 @@ package com.skybox.seven.edustat.epoxy.controllers
 
 import com.airbnb.epoxy.Typed2EpoxyController
 import com.skybox.seven.edustat.epoxy.conversations.MessageDateModel_
+import com.skybox.seven.edustat.epoxy.conversations.MessageReceivedModel_
 import com.skybox.seven.edustat.epoxy.conversations.MessageSelfModel_
 import com.skybox.seven.edustat.model.Message
 import com.skybox.seven.edustat.util.DateHelper
@@ -14,13 +15,20 @@ class ChatController(private val userId: Int): Typed2EpoxyController<Boolean, Li
         messages.forEach {
                 message ->
             val date = Date(message.timecreated.toLong() * 1000)
-
-            MessageSelfModel_()
-                .id(message.id)
-                .text(message.text)
-                .time(DateHelper.getTime(date))
-                .self(userId == message.useridfrom)
-                .addTo(this)
+            if (userId == message.useridfrom) {
+                MessageSelfModel_()
+                    .id(message.id)
+                    .text(message.text)
+                    .time(DateHelper.getTime(date))
+                    .self(userId == message.useridfrom)
+                    .addTo(this)
+            } else {
+                MessageReceivedModel_()
+                    .id(message.id)
+                    .text(message.text)
+                    .time(DateHelper.getTime(date))
+                    .addTo(this)
+            }
             addDateSeparator(date)
         }
     }
