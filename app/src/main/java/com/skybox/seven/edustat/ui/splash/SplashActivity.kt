@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.skybox.seven.edustat.repository.PrefRepository
-import com.skybox.seven.edustat.ui.login.LoginActivity
+import com.skybox.seven.edustat.ui.login.AuthActivity
 import com.skybox.seven.edustat.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
         if (prefRepository.checkAuthState()) {
             startActivity(Intent(this, MainActivity::class.java))
         } else {
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, AuthActivity::class.java))
         }
         finish()
     }

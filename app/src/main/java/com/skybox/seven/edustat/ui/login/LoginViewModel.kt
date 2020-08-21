@@ -22,6 +22,7 @@ class LoginViewModel @ViewModelInject constructor(
     var username: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
     var loggedIn: MutableLiveData<Boolean> = MutableLiveData()
+    var savePreps: MutableLiveData<Boolean> = MutableLiveData()
 
     fun login() {
         if (validate())
@@ -50,6 +51,19 @@ class LoginViewModel @ViewModelInject constructor(
                     })
             )
 
+    }
+
+    fun isDownloadPathSet(): Boolean = prefRepository.getFilePath() != null
+
+    fun saveDir(path: String)  {
+        prefRepository.saveFilePath(path)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                savePreps.value = true
+            }, {
+                // todo: handle
+            })
     }
 
     private fun validate(): Boolean {

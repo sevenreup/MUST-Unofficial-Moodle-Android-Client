@@ -31,6 +31,11 @@ class PrefRepository (private val prefs: SharedPreferences) {
 
     fun checkAuthState(): Boolean = prefs.getString(ACCESS_TOKEN, null) != null
 
+    fun getFilePath():String? = prefs.getString(DOWNLOAD_FOLDER, null)
+
+    fun saveFilePath(path: String):Completable = prefSubject.firstOrError().editSharedPreferences {
+        putString(DOWNLOAD_FOLDER, path)
+    }
 
     fun saveToken(authResponse: AuthResponse): Completable =
         prefSubject.firstOrError().editSharedPreferences{
@@ -64,5 +69,6 @@ class PrefRepository (private val prefs: SharedPreferences) {
         const val PRIVATE_TOKEN = "MOODLE_PRIVATE_TOKEN"
         const val USER_ID = "MOODLE_SITE_USER_ID"
         const val PREFS = "MUST_MOODLE_SELF_ANDROID"
+        const val DOWNLOAD_FOLDER = "MOODLE_DOWNLOAD_FOLDER"
     }
 }
