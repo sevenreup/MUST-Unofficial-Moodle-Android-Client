@@ -6,35 +6,50 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.liulishuo.okdownload.UnifiedListenerManager
+import com.skybox.seven.edustat.model.ActiveCourseData
 import com.skybox.seven.edustat.model.DownloadFile
 import com.skybox.seven.edustat.model.Module
 import com.skybox.seven.edustat.model.Section
 import com.skybox.seven.edustat.repository.DownloadedFilesRepository
 import com.skybox.seven.edustat.repository.PrefRepository
-import com.skybox.seven.edustat.util.addTokenToUrl
+import com.skybox.seven.edustat.util.convertModuleToFile
 import com.skybox.seven.edustat.util.download.MoodleDownloadListener
 import com.skybox.seven.edustat.util.download.QueueController
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
+private const val TAG = "SectionViewModel"
 class SectionViewModel @ViewModelInject constructor(private val manager: UnifiedListenerManager,
                                                     private val repository: DownloadedFilesRepository,
-                                                    private val prefRepository: PrefRepository): ViewModel() {
+                                                    private val prefRepository: PrefRepository,
+                                                    private val moodleDownloadListener: MoodleDownloadListener): ViewModel() {
     val section: MutableLiveData<Section> = MutableLiveData()
     val modules: MutableLiveData<List<Module>> = MutableLiveData()
+    val downloadable: MutableLiveData<List<DownloadFile>> = MutableLiveData(ArrayList())
 
-    fun downloadAll(context: Context) {
-        val files: MutableList<DownloadFile> = ArrayList()
-        modules.value?.forEach {
-            if(it.modname == "resource") {
-                val file = DownloadFile()
-                file.moduleId = it.id
-                file.fileUrl = addTokenToUrl(it.contents[0].fileurl, prefRepository)
-                file.mimeType = it.contents[0].mimetype
-                file.filename = it.contents[0].filename
-                file.fileSize = it.contents[0].filesize
-                files.add(file)
-            }
-        }
-        QueueController.initTaskQueue(context, MoodleDownloadListener(), manager, files, "one", "two",repository)
-        Log.i("TAG", "downloadAll: ${files.size}")
+    fun downloadAll(context: Context, data: ActiveCourseData) {
+        downloadable.value = QueueController.initTaskQueue(context, moodleDownloadListener, manager,
+            downloadable.value!!, data.courseName!!, data.sectionName!!)
+        repository.insert(downloadable.value!!)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e(TAG, "downloadAll: completed")
+            }, {
+                Log.e(TAG, "downloadAll: failed to insert", it)
+            })
     }
+
+    fun workOnModules(rawModules: List<Module>, data:ActiveCourseData) {
+        val downloadList: MutableList<DownloadFile> = ArrayList()
+        val courseList: MutableList<Module> = ArrayList()
+        rawModules.forEach {
+            if (it.modname == "resource") downloadList.add(convertModuleToFile(it, prefRepository, data))
+            else courseList.add(it)
+        }
+        downloadable.value = downloadList
+        modules.value = courseList
+    }
+
+
 }

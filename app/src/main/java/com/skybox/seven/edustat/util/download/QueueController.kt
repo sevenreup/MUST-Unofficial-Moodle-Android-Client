@@ -12,8 +12,7 @@ import java.io.File
 
 object QueueController {
     fun initTaskQueue(context: Context, listener: DownloadListener, unifiedListenerManager: UnifiedListenerManager,
-                      downloadTasks: List<DownloadFile>, course: String, section: String,
-                      downloadedFilesRepository: DownloadedFilesRepository) {
+                      downloadTasks: List<DownloadFile>, course: String, section: String): List<DownloadFile> {
 
         downloadTasks.forEach{
             val parentFile = File(getParentFile(context), "${course}/$section")
@@ -29,7 +28,7 @@ object QueueController {
             it.taskId = task.id
             it.downloaded = false
         }
-        downloadedFilesRepository.insert(downloadTasks)
+        return downloadTasks
     }
 
     fun addFile(context: Context, listener: DownloadListener, unifiedListenerManager: UnifiedListenerManager,

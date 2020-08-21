@@ -37,6 +37,7 @@ internal object TagUtil {
     }
 
     fun saveTaskName(task: DownloadTask, name: String) {
+        task.tag = name
         task.addTag(KEY_TASK_NAME, name)
     }
 

@@ -2,6 +2,7 @@ package com.skybox.seven.edustat.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "downloads")
@@ -12,6 +13,8 @@ public class DownloadFile {
     private Integer taskId;
     @ColumnInfo
     private Integer courseId;
+    @ColumnInfo
+    private String description;
     @ColumnInfo
     private Integer sectionId;
     @ColumnInfo
@@ -26,6 +29,10 @@ public class DownloadFile {
     private Integer fileSize;
     @ColumnInfo
     private Boolean downloaded = false;
+    @Ignore
+    private Boolean downloading = false;
+    @Ignore
+    private Boolean failed = false;
 
     public Integer getTaskId() {
         return taskId;
@@ -105,5 +112,29 @@ public class DownloadFile {
 
     public void setDownloaded(Boolean downloaded) {
         this.downloaded = downloaded;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getDownloading() {
+        return downloading;
+    }
+
+    public void setDownloading(Boolean downloading) {
+        this.downloading = downloading;
+    }
+
+    public Boolean getFailed() {
+        return failed;
+    }
+
+    public void setFailed(Boolean failed) {
+        this.failed = failed;
     }
 }

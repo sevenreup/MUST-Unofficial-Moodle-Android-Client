@@ -7,13 +7,14 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.skybox.seven.edustat.R
 import com.skybox.seven.edustat.epoxy.BaseEpoxyHolder
+import com.skybox.seven.edustat.model.DownloadFile
 import com.skybox.seven.edustat.model.Module
 
 @EpoxyModelClass(layout = R.layout.model_section_document)
 abstract class SectionDocumentModel :
     EpoxyModelWithHolder<SectionDocumentModel.SectionDocumentHolder>() {
     @EpoxyAttribute
-    lateinit var module: Module
+    lateinit var module: DownloadFile
 
     override fun getDefaultLayout(): Int = R.layout.model_section_document
 
@@ -21,7 +22,7 @@ abstract class SectionDocumentModel :
 
     override fun bind(holder: SectionDocumentHolder) {
         super.bind(holder)
-        holder.title.text = module.name
+        holder.title.text = module.filename
         if (module.description != null) holder.desc.text = Html.fromHtml(module.description)
     }
 

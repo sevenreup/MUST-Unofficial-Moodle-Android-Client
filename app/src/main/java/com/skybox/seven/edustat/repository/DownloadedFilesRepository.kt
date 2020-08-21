@@ -11,4 +11,6 @@ class DownloadedFilesRepository @Inject constructor(val downloadsDAO: DownloadsD
     fun getAllDownloadingTask() = downloadsDAO.getAllUnfinishedTask()
 
     fun update(file: DownloadFile) = downloadsDAO.updateUsers(file)
+
+    fun update(task: Int) {}
 }

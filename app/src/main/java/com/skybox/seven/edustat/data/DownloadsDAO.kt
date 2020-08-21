@@ -16,7 +16,7 @@ interface DownloadsDAO {
     @Insert
     fun insert(downloadFile: List<DownloadFile>): Completable
 
-    @Query("Select * from downloads where downloaded = 0")
+    @Query("Select * from downloads")
     fun getAllUnfinishedTask(): LiveData<List<DownloadFile>>
 
     @Query("Select * from downloads where taskId = :taskId")

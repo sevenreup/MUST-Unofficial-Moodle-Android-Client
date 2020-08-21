@@ -6,10 +6,12 @@ import com.liulishuo.okdownload.DownloadTask
 import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo
 import com.liulishuo.okdownload.core.cause.EndCause
 import com.liulishuo.okdownload.core.cause.ResumeFailedCause
+import com.skybox.seven.edustat.repository.DownloadedFilesRepository
 import java.lang.Exception
+import javax.inject.Inject
 
 private const val TAG = "MoodleDownloadListener"
-class MoodleDownloadListener(): DownloadListener {
+class MoodleDownloadListener @Inject constructor(private val downloadedFilesRepository: DownloadedFilesRepository): DownloadListener {
     override fun connectTrialEnd(
         task: DownloadTask,
         responseCode: Int,
@@ -36,6 +38,10 @@ class MoodleDownloadListener(): DownloadListener {
 
     override fun taskEnd(task: DownloadTask, cause: EndCause, realCause: Exception?) {
         Log.e(TAG, "taskEnd: ${task.tag} cause: ${cause.name}", realCause)
+        when(cause) {
+            EndCause.ERROR,EndCause.COMPLETED -> downloadedFilesRepository.update(task.id)
+            else -> Log.e(TAG, "taskEnd: other stuff")
+        }
     }
 
     override fun connectTrialStart(

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.skybox.seven.edustat.ui.login.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/setPermissions"
+        android:name="com.skybox.seven.edustat.ui.login.FirstLaunchPermissionFragment"
+        android:label="fragment_first_launch_permission"
+        tools:layout="@layout/fragment_first_launch_permission" />
+</navigation>
