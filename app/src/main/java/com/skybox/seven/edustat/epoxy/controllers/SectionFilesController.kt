@@ -6,7 +6,7 @@ import com.skybox.seven.edustat.epoxy.section.SectionDocumentModel_
 import com.skybox.seven.edustat.model.DownloadFile
 
 private const val TAG = "SectionFilesController"
-class SectionFilesController : Typed2EpoxyController<Boolean, HashMap<String, DownloadFile>>() {
+class SectionFilesController(private val callbacks: SectionFileCallbacks) : Typed2EpoxyController<Boolean, HashMap<String, DownloadFile>>() {
     override fun buildModels(loading: Boolean, downloadList: HashMap<String, DownloadFile>) {
         downloadList.forEach{
             Log.e(TAG, "buildModels: ${it.value.downloaded} ${it.value.downloadStatus}")
@@ -16,7 +16,12 @@ class SectionFilesController : Typed2EpoxyController<Boolean, HashMap<String, Do
                 .progress(it.value.progress)
                 .downloadStatus(it.value.downloadStatus)
                 .description(it.value.description)
+                .clickListener { _,_,_,_ -> callbacks.onFileClick(it.value) }
                 .addTo(this)
         }
     }
+}
+
+interface SectionFileCallbacks {
+    fun onFileClick(file: DownloadFile)
 }

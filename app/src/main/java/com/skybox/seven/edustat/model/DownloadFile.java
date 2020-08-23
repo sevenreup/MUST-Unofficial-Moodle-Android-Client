@@ -33,6 +33,8 @@ public class DownloadFile {
     private String filePath;
     @ColumnInfo
     private Boolean downloaded = false;
+    @ColumnInfo
+    private Boolean dirty = false;
     @Ignore
     String status;
     @Ignore
@@ -158,6 +160,14 @@ public class DownloadFile {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public Boolean getDirty() {
+        return dirty;
+    }
+
+    public void setDirty(Boolean dirty) {
+        this.dirty = dirty;
     }
 
     @Override

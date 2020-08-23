@@ -2,6 +2,7 @@ package com.skybox.seven.edustat.ui.section
 
 import android.content.Context
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,6 +37,7 @@ class SectionViewModel @ViewModelInject constructor(
     val modules: MutableLiveData<List<Module>> = MutableLiveData()
     lateinit var dbDownloads: LiveData<List<DownloadFile>>
     val downloadsMap: MutableLiveData<HashMap<String, DownloadFile>> = MutableLiveData(HashMap())
+    val activeData: MutableLiveData<ActiveCourseData> = MutableLiveData()
     private val moodleDownloadListener: MoodleDownloadListener = MoodleDownloadListener(this)
 
     fun downloadAll(context: Context, data: ActiveCourseData) {
@@ -47,9 +49,23 @@ class SectionViewModel @ViewModelInject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.e(TAG, "downloadAll: completed")
+                Log.e(TAG, "downloadAll: completed insert")
             }, {
                 Log.e(TAG, "downloadAll: failed to insert", it)
+            })
+    }
+
+    fun singleDownload(file: DownloadFile, context: Context) {
+        val data = activeData.value
+        downloadsMap.value?.set(file.moduleId.toString(),
+            QueueController.singleFile(file, context,moodleDownloadListener, manager, data?.courseName!!, data.sectionName!!))
+        downloadsMap.notifyObserver()
+        repository.insert(file).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e(TAG, "download: completed insert")
+            }, {
+                Log.e(TAG, "download: failed to insert", it)
             })
     }
 
@@ -88,10 +104,9 @@ class SectionViewModel @ViewModelInject constructor(
         if (cause == EndCause.COMPLETED) {
             val moduleID = TagUtil.getModuleID(task)
             if (moduleID != null) {
-                repository.updateDownloadStatus(moduleID, task.uri.toString())
+                repository.updateDownloadStatus(moduleID, task.file?.toURI().toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    // update ui regardless, scratch the exception
                     .subscribe({
                         complete(moduleID)
                     }, {
@@ -146,5 +161,16 @@ class SectionViewModel @ViewModelInject constructor(
             downloadsMap.value?.set(downloadComplete.moduleId.toString(), downloadComplete)
             downloadsMap.notifyObserver()
         }
+    }
+
+    fun changeDownloadStatus(file: DownloadFile) {
+        repository.updateDownloadStatus(file.moduleId, file.filePath)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                complete(file.moduleId)
+            }, {
+                complete(file.moduleId)
+            })
     }
 }

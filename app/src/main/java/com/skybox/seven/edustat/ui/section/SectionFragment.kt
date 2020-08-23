@@ -17,6 +17,7 @@ import com.skybox.seven.edustat.util.notifyObserver
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "SectionFragment"
+
 @AndroidEntryPoint
 class SectionFragment : Fragment() {
     private lateinit var binding: FragmentSectionBinding
@@ -32,17 +33,23 @@ class SectionFragment : Fragment() {
 
         activityViewModel.navigationData.value?.sectionName = args.section.name
         activityViewModel.navigationData.value?.sectionID = args.section.id
+        viewModel.activeData.value = activityViewModel.navigationData.value
         viewModel.workOnModules(args.section.modules, activityViewModel.navigationData.value!!)
 
-        viewModel.getDBDownloads(activityViewModel.navigationData.value?.courseId!!,args.section.id).observe(this, Observer {
+        viewModel.getDBDownloads(
+            activityViewModel.navigationData.value?.courseId!!,
+            args.section.id
+        ).observe(this, Observer {
             Log.e(TAG, "onCreate: ${it.size}")
-            it.forEach {down ->
+            it.forEach { down ->
                 val file = viewModel.downloadsMap.value?.get(down.moduleId.toString())
                 if (file != null) {
                     if (down.downloaded) {
                         Log.e(TAG, "onCreate: this is available")
                         down.downloadStatus = DownloadStatus.DOWNLOADED
                         down.progress = 100L
+                        viewModel.downloadsMap.value?.set(down.moduleId.toString(), down)
+                    } else {
                         viewModel.downloadsMap.value?.set(down.moduleId.toString(), down)
                     }
                 }

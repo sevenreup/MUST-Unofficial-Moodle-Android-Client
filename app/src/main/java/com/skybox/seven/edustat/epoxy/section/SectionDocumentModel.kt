@@ -17,6 +17,8 @@ import com.skybox.seven.edustat.model.DownloadStatus
 abstract class SectionDocumentModel :
     EpoxyModelWithHolder<SectionDocumentModel.SectionDocumentHolder>() {
     @EpoxyAttribute
+    var clickListener: View.OnClickListener? = null
+    @EpoxyAttribute
     lateinit var filename: String
     @EpoxyAttribute
     var progress: Long = 0L
@@ -32,6 +34,7 @@ abstract class SectionDocumentModel :
 
     override fun bind(holder: SectionDocumentHolder) {
         super.bind(holder)
+        clickListener?.let { holder.setViewClickListener(it) }
         holder.title.text = filename
         if (description != null) holder.desc.text = Html.fromHtml(description)
         when(downloadStatus) {

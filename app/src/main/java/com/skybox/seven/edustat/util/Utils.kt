@@ -1,7 +1,9 @@
 package com.skybox.seven.edustat.util
 
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
+import androidx.core.content.FileProvider
 import com.skybox.seven.edustat.model.ActiveCourseData
 import com.skybox.seven.edustat.model.DownloadFile
 import com.skybox.seven.edustat.model.Module
@@ -34,4 +36,13 @@ fun convertModuleToFile(module: Module, prefRepository: PrefRepository, data: Ac
     file.courseId = data.courseId
     file.sectionId = data.sectionID
     return file
+}
+
+fun selfFileOpenIntent(context: Context, path: String, mimeType: String, packageName: String): Intent {
+    val intent = Intent(Intent.ACTION_VIEW)
+    val fileOpen = File(URI.create(path))
+    val uri = FileProvider.getUriForFile(context, "${packageName}.fileprovider", fileOpen)
+    intent.setDataAndType(uri, mimeType)
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    return intent
 }
