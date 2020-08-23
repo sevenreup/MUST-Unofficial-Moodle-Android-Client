@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="32.0dip"
-                app:cardBackgroundColor="@color/purple"
+                app:cardBackgroundColor="?colorPrimary"
                 app:cardCornerRadius="16.0dip"
                 app:cardElevation="0.0dip"
                 app:cardUseCompatPadding="false">
