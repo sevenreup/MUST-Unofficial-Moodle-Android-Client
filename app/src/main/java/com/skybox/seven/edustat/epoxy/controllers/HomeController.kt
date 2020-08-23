@@ -10,7 +10,7 @@ class HomeController(private val callbacks: CourseCallbacks): Typed2EpoxyControl
         courses?.forEach {
             CourseModel_().id(it.id)
                 .course(it)
-                .listerner{_,_,view,_ -> callbacks.onCourseClick(it, view)}
+                .listerner{_,ho,_,_ -> callbacks.onCourseClick(it, ho.title)}
                 .addTo(this)
         }
     }

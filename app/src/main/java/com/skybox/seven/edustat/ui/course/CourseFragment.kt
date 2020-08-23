@@ -1,5 +1,6 @@
 package com.skybox.seven.edustat.ui.course
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialContainerTransform
+import com.skybox.seven.edustat.R
 import com.skybox.seven.edustat.databinding.FragmentCourseBinding
 import com.skybox.seven.edustat.epoxy.controllers.CourseController
 import com.skybox.seven.edustat.model.Section
 import com.skybox.seven.edustat.ui.main.MainViewModel
+import com.skybox.seven.edustat.util.themeColor
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +29,11 @@ class CourseFragment : Fragment(), CourseController.SessionCallback{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.edu_motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
+        }
         args = CourseFragmentArgs.fromBundle(requireArguments())
 
         activityViewModel.navigationData.value?.courseName = args.course.shortname

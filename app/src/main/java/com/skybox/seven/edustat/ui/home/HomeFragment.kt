@@ -6,10 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
+import com.skybox.seven.edustat.R
 import com.skybox.seven.edustat.databinding.FragmentHomeBinding
 import com.skybox.seven.edustat.epoxy.controllers.HomeController
 import com.skybox.seven.edustat.model.Course
@@ -25,6 +30,9 @@ class HomeFragment : Fragment(), HomeController.CourseCallbacks{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.edu_motion_duration_large).toLong()
+        }
         viewModel.siteInfo.observe(this, Observer {
             viewModel.getCourseList(it.userId)
         })
@@ -47,8 +55,21 @@ class HomeFragment : Fragment(), HomeController.CourseCallbacks{
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+    }
+
     override fun onCourseClick(course: Course, view: View) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.edu_motion_duration_large).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.edu_motion_duration_large).toLong()
+        }
+        val extras = FragmentNavigatorExtras(view to getString(R.string.course_card_detail_transition_name))
         val action = HomeFragmentDirections.actionStartScreenToCourseFragment(course)
-        findNavController().navigate(action)
+        findNavController().navigate(action, extras)
     }
 }

@@ -32,11 +32,12 @@ abstract class CourseModel: EpoxyModelWithHolder<CourseModel.CourseHolder>() {
         holder.title.text = course.displayname
         holder.progressBar.progress = course.progress.toInt()
         holder.shortTitle.text = course.shortname
-        val colors = intArrayOf(Color.parseColor("#008000"), Color.parseColor("#ADFF2F"))
-        val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors)
-        gradientDrawable.cornerRadius = 20F
-        holder.view.background = gradientDrawable
+//        val colors = intArrayOf(Color.parseColor("#008000"), Color.parseColor("#ADFF2F"))
+//        val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors)
+//        gradientDrawable.cornerRadius = 20F
+//        holder.view.background = gradientDrawable
         holder.setViewClickListener(listerner)
+        holder.title.transitionName = "course_${course.id}"
     }
 
     override fun getDefaultLayout(): Int = R.layout.model_course

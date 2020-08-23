@@ -40,4 +40,5 @@ abstract class BaseEpoxyHolder: EpoxyHolder() {
         view.setOnClickListener(lister)
     }
 
+    fun getParent() = view
 }
