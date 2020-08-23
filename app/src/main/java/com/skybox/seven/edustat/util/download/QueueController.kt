@@ -12,21 +12,20 @@ import java.io.File
 
 object QueueController {
     fun initTaskQueue(context: Context, listener: DownloadListener, unifiedListenerManager: UnifiedListenerManager,
-                      downloadTasks: List<DownloadFile>, course: String, section: String): List<DownloadFile> {
+                      downloadTasks: HashMap<String, DownloadFile>, course: String, section: String): HashMap<String, DownloadFile> {
 
         downloadTasks.forEach{
             val parentFile = File(getParentFile(context), "${course}/$section")
-            val task = DownloadTask.Builder(it.fileUrl, parentFile)
+            val task = DownloadTask.Builder(it.value.fileUrl, parentFile)
                 .setMinIntervalMillisCallbackProcess(30)
-                .setFilename(it.filename)
+                .setFilename(it.value.filename)
                 .setPassIfAlreadyCompleted(false)
                 .build()
-            Log.e("TAG", "initTaskQueue: ${it.fileUrl}")
-            TagUtil.saveTaskName(task, it.filename)
+            TagUtil.saveTaskInfo(task, it.value)
             unifiedListenerManager.addAutoRemoveListenersWhenTaskEnd(task.id)
             unifiedListenerManager.attachAndEnqueueIfNotRun(task, listener)
-            it.taskId = task.id
-            it.downloaded = false
+            it.value.taskId = task.id
+            it.value.downloaded = false
         }
         return downloadTasks
     }
@@ -40,7 +39,6 @@ object QueueController {
             .setMinIntervalMillisCallbackProcess(30)
             .setPassIfAlreadyCompleted(false)
             .build()
-        TagUtil.saveTaskName(task, downloadTask.filename)
         unifiedListenerManager.addAutoRemoveListenersWhenTaskEnd(task.id)
         unifiedListenerManager.attachAndEnqueueIfNotRun(task, listener)
         downloadTask.taskId = task.id

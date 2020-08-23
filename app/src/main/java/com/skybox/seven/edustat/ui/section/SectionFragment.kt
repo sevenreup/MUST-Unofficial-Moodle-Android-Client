@@ -1,6 +1,7 @@
 package com.skybox.seven.edustat.ui.section
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.skybox.seven.edustat.adapter.SectionAdapter
 import com.skybox.seven.edustat.databinding.FragmentSectionBinding
+import com.skybox.seven.edustat.model.DownloadStatus
 import com.skybox.seven.edustat.ui.main.MainViewModel
+import com.skybox.seven.edustat.util.notifyObserver
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "SectionFragment"
 @AndroidEntryPoint
 class SectionFragment : Fragment() {
     private lateinit var binding: FragmentSectionBinding
@@ -28,8 +32,23 @@ class SectionFragment : Fragment() {
 
         activityViewModel.navigationData.value?.sectionName = args.section.name
         activityViewModel.navigationData.value?.sectionID = args.section.id
-
         viewModel.workOnModules(args.section.modules, activityViewModel.navigationData.value!!)
+
+        viewModel.getDBDownloads(activityViewModel.navigationData.value?.courseId!!,args.section.id).observe(this, Observer {
+            Log.e(TAG, "onCreate: ${it.size}")
+            it.forEach {down ->
+                val file = viewModel.downloadsMap.value?.get(down.moduleId.toString())
+                if (file != null) {
+                    if (down.downloaded) {
+                        Log.e(TAG, "onCreate: this is available")
+                        down.downloadStatus = DownloadStatus.DOWNLOADED
+                        down.progress = 100L
+                        viewModel.downloadsMap.value?.set(down.moduleId.toString(), down)
+                    }
+                }
+            }
+            viewModel.downloadsMap.notifyObserver()
+        })
     }
 
     override fun onCreateView(
@@ -40,9 +59,9 @@ class SectionFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.fragment = this
         viewModel.modules.observe(viewLifecycleOwner, Observer {
-            adapter = if (it.isEmpty() && viewModel.downloadable.value!!.isNotEmpty()) {
+            adapter = if (it.isEmpty() && viewModel.downloadsMap.value!!.isNotEmpty()) {
                 SectionAdapter(this, SectionAdapter.Companion.TYPE.files)
-            } else if (it.isNotEmpty() && viewModel.downloadable.value!!.isNotEmpty()) {
+            } else if (it.isNotEmpty() && viewModel.downloadsMap.value!!.isNotEmpty()) {
                 SectionAdapter(this, SectionAdapter.Companion.TYPE.ALL)
             } else {
                 SectionAdapter(this, SectionAdapter.Companion.TYPE.data)

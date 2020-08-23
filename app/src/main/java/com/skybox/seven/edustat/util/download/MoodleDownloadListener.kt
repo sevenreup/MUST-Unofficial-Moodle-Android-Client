@@ -1,83 +1,63 @@
 package com.skybox.seven.edustat.util.download
 
 import android.util.Log
-import com.liulishuo.okdownload.DownloadListener
 import com.liulishuo.okdownload.DownloadTask
-import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo
 import com.liulishuo.okdownload.core.cause.EndCause
 import com.liulishuo.okdownload.core.cause.ResumeFailedCause
-import com.skybox.seven.edustat.repository.DownloadedFilesRepository
+import com.liulishuo.okdownload.core.listener.DownloadListener1
+import com.liulishuo.okdownload.core.listener.assist.Listener1Assist
+import com.skybox.seven.edustat.interfaces.DownloadCallbacks
 import java.lang.Exception
-import javax.inject.Inject
 
 private const val TAG = "MoodleDownloadListener"
-class MoodleDownloadListener @Inject constructor(private val downloadedFilesRepository: DownloadedFilesRepository): DownloadListener {
-    override fun connectTrialEnd(
+
+class MoodleDownloadListener constructor(private val downloadCallbacks: DownloadCallbacks) :
+    DownloadListener1() {
+    override fun taskStart(task: DownloadTask, model: Listener1Assist.Listener1Model) {
+        val status = "taskStart"
+        TagUtil.saveStatus(task, status)
+        downloadCallbacks.onDownloadTaskStart(task)
+    }
+
+    override fun taskEnd(
         task: DownloadTask,
-        responseCode: Int,
-        responseHeaderFields: MutableMap<String, MutableList<String>>
+        cause: EndCause,
+        realCause: Exception?,
+        model: Listener1Assist.Listener1Model
     ) {
-        Log.e(TAG, "connectTrialEnd: ${task.tag} code: $responseCode")
+        val status = cause.toString()
+        TagUtil.saveStatus(task, status)
+
+        Log.e(TAG, "${task.url} ended with: $cause")
+        downloadCallbacks.onDownloadTaskEnd(task, cause)
     }
 
-    override fun fetchEnd(task: DownloadTask, blockIndex: Int, contentLength: Long) {
-        Log.e(TAG, "fetchEnd: ${task.tag} block: $blockIndex length $contentLength")
+    override fun progress(task: DownloadTask, currentOffset: Long, totalLength: Long) {
+        val status = "progress"
+        TagUtil.saveStatus(task, status)
+        TagUtil.saveOffset(task, currentOffset)
+        Log.i(TAG, "progress " + task.id + " with " + currentOffset)
+        downloadCallbacks.onDownloadTaskProgress(task, currentOffset)
     }
 
-    override fun downloadFromBeginning(
+    override fun connected(
         task: DownloadTask,
-        info: BreakpointInfo,
-        cause: ResumeFailedCause
+        blockCount: Int,
+        currentOffset: Long,
+        totalLength: Long
     ) {
-        Log.e(TAG, "downloadFromBeginning: ${task.tag} info: ${info.filename} length ${cause.name}")
+        val status = "connected"
+        TagUtil.saveStatus(task, status)
+        TagUtil.saveOffset(task, currentOffset)
+        TagUtil.saveTotal(task, totalLength)
+
+        downloadCallbacks.onDownloadTaskConnected(task, currentOffset, totalLength)
     }
 
-    override fun taskStart(task: DownloadTask) {
-        Log.e(TAG, "taskStart: ${task.tag}")
-    }
+    override fun retry(task: DownloadTask, cause: ResumeFailedCause) {
+        val status = "retry"
+        TagUtil.saveStatus(task, status)
 
-    override fun taskEnd(task: DownloadTask, cause: EndCause, realCause: Exception?) {
-        Log.e(TAG, "taskEnd: ${task.tag} cause: ${cause.name}", realCause)
-        when(cause) {
-            EndCause.ERROR,EndCause.COMPLETED -> downloadedFilesRepository.update(task.id)
-            else -> Log.e(TAG, "taskEnd: other stuff")
-        }
-    }
-
-    override fun connectTrialStart(
-        task: DownloadTask,
-        requestHeaderFields: MutableMap<String, MutableList<String>>
-    ) {
-        Log.e(TAG, "connectTrialStart: ${task.tag}")
-    }
-
-    override fun downloadFromBreakpoint(task: DownloadTask, info: BreakpointInfo) {
-        Log.e(TAG, "downloadFromBreakpoint: ${task.tag}")
-
-    }
-
-    override fun fetchStart(task: DownloadTask, blockIndex: Int, contentLength: Long) {
-        Log.e(TAG, "fetchStart: ${task.tag}")
-    }
-
-    override fun fetchProgress(task: DownloadTask, blockIndex: Int, increaseBytes: Long) {
-        Log.e(TAG, "fetchProgress: ${task.tag}")
-    }
-
-    override fun connectEnd(
-        task: DownloadTask,
-        blockIndex: Int,
-        responseCode: Int,
-        responseHeaderFields: MutableMap<String, MutableList<String>>
-    ) {
-        Log.e(TAG, "connectEnd: ${task.tag}")
-    }
-
-    override fun connectStart(
-        task: DownloadTask,
-        blockIndex: Int,
-        requestHeaderFields: MutableMap<String, MutableList<String>>
-    ) {
-        Log.e(TAG, "connectStart: ${task.tag}")
+        downloadCallbacks.onDownloadTaskRetry(task)
     }
 }

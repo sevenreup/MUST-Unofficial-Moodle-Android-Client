@@ -1,12 +1,13 @@
 package com.skybox.seven.edustat.util.download
 
 import com.liulishuo.okdownload.DownloadTask
+import com.skybox.seven.edustat.model.DownloadFile
 
 internal object TagUtil {
     private const val KEY_STATUS = 0
     private const val KEY_OFFSET = 1
     private const val KEY_TOTAL = 2
-    private const val KEY_TASK_NAME = 3
+    private const val KEY_TASK_MODULE = 3
     private const val KEY_PRIORITY = 4
 
     fun saveStatus(task: DownloadTask, status: String) {
@@ -36,14 +37,13 @@ internal object TagUtil {
         return if (total != null) total as Long else 0
     }
 
-    fun saveTaskName(task: DownloadTask, name: String) {
-        task.tag = name
-        task.addTag(KEY_TASK_NAME, name)
+    private fun saveModuleID(task: DownloadTask, name: Int) {
+        task.addTag(KEY_TASK_MODULE, name)
     }
 
-    fun getTaskName(task: DownloadTask): String? {
-        val taskName = task.getTag(KEY_TASK_NAME)
-        return if (taskName != null) taskName as String else null
+    fun getModuleID(task: DownloadTask): Int? {
+        val taskName = task.getTag(KEY_TASK_MODULE)
+        return if (taskName != null) taskName as Int else null
     }
 
     fun savePriority(task: DownloadTask, priority: Int) {
@@ -60,5 +60,10 @@ internal object TagUtil {
         task.removeTag(KEY_OFFSET)
         task.removeTag(KEY_TOTAL)
         task.removeTag(KEY_OFFSET)
+    }
+
+    fun saveTaskInfo(task: DownloadTask, file: DownloadFile) {
+        task.tag = file.filename
+        saveModuleID(task, file.moduleId)
     }
 }

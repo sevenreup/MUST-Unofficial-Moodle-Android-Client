@@ -1,6 +1,7 @@
 package com.skybox.seven.edustat.ui.section.pages
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import com.skybox.seven.edustat.databinding.ViewRecyclerviewBinding
 import com.skybox.seven.edustat.epoxy.controllers.SectionFilesController
 import com.skybox.seven.edustat.ui.section.SectionViewModel
 
-
+private const val TAG = "SectionFilesFragment"
 class SectionFilesFragment : Fragment() {
     private val viewModel: SectionViewModel by activityViewModels()
     private lateinit var binding: ViewRecyclerviewBinding
@@ -19,7 +20,8 @@ class SectionFilesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.downloadable.observe(this, Observer {
+        viewModel.downloadsMap.observe(this, Observer {
+            Log.e(TAG, "keep om hitting")
             controller.setData(false, it)
         })
     }
