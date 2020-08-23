@@ -1,13 +1,27 @@
 package com.skybox.seven.edustat.epoxy.controllers
 
+import android.util.Log
 import com.airbnb.epoxy.Typed2EpoxyController
 import com.skybox.seven.edustat.epoxy.section.SectionDocumentModel_
 import com.skybox.seven.edustat.model.DownloadFile
 
-class SectionFilesController : Typed2EpoxyController<Boolean, List<DownloadFile>>() {
-    override fun buildModels(loading: Boolean, downloadList: List<DownloadFile>) {
+private const val TAG = "SectionFilesController"
+class SectionFilesController(private val callbacks: SectionFileCallbacks) : Typed2EpoxyController<Boolean, HashMap<String, DownloadFile>>() {
+    override fun buildModels(loading: Boolean, downloadList: HashMap<String, DownloadFile>) {
         downloadList.forEach{
-            SectionDocumentModel_().id(it.moduleId).module(it).addTo(this)
+            Log.e(TAG, "buildModels: ${it.value.downloaded} ${it.value.downloadStatus}")
+            SectionDocumentModel_()
+                .id(it.value.moduleId)
+                .filename(it.value.filename)
+                .progress(it.value.progress)
+                .downloadStatus(it.value.downloadStatus)
+                .description(it.value.description)
+                .clickListener { _,_,_,_ -> callbacks.onFileClick(it.value) }
+                .addTo(this)
         }
     }
+}
+
+interface SectionFileCallbacks {
+    fun onFileClick(file: DownloadFile)
 }

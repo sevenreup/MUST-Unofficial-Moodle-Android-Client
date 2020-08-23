@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "downloads")
 public class DownloadFile {
     @PrimaryKey
@@ -28,11 +30,17 @@ public class DownloadFile {
     @ColumnInfo
     private Integer fileSize;
     @ColumnInfo
+    private String filePath;
+    @ColumnInfo
     private Boolean downloaded = false;
+    @ColumnInfo
+    private Boolean dirty = false;
     @Ignore
-    private Boolean downloading = false;
+    String status;
     @Ignore
-    private Boolean failed = false;
+    DownloadStatus downloadStatus = DownloadStatus.IDLE;
+    @Ignore
+    Long progress = 0L;
 
     public Integer getTaskId() {
         return taskId;
@@ -122,19 +130,60 @@ public class DownloadFile {
         this.description = description;
     }
 
-    public Boolean getDownloading() {
-        return downloading;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDownloading(Boolean downloading) {
-        this.downloading = downloading;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Boolean getFailed() {
-        return failed;
+    public DownloadStatus getDownloadStatus() {
+        return downloadStatus;
     }
 
-    public void setFailed(Boolean failed) {
-        this.failed = failed;
+    public void setDownloadStatus(DownloadStatus downloadStatus) {
+        this.downloadStatus = downloadStatus;
+    }
+
+    public Long getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Long progress) {
+        this.progress = progress;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public Boolean getDirty() {
+        return dirty;
+    }
+
+    public void setDirty(Boolean dirty) {
+        this.dirty = dirty;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DownloadFile)) return false;
+        DownloadFile that = (DownloadFile) o;
+        return getModuleId().equals(that.getModuleId()) &&
+                Objects.equals(getStatus(), that.getStatus()) &&
+                getDownloadStatus() == that.getDownloadStatus() &&
+                Objects.equals(getProgress(), that.getProgress());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getModuleId(), getStatus(), getDownloadStatus(), getProgress());
     }
 }
+

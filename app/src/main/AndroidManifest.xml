@@ -14,7 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Edu.Theme"
         android:name=".MoodleApplication">
-
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.skybox.seven.edustat.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
         <activity
             android:name=".ui.splash.SplashActivity">
             <intent-filter>
