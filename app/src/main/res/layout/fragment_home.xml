@@ -21,14 +21,14 @@
             android:padding="8dp"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceHeadline6"
-            android:text="@{`Here are your Courses ` + fragment.viewModel.siteInfo.firstName}"/>
+            android:text="@{`Here are your Courses ` + fragment.activityViewModel.siteInfo.firstName}"/>
 
         <TextView
             android:id="@+id/user_greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@{`Hello, ` + fragment.viewModel.siteInfo.firstName}"
+            android:text="@{`Hello, ` + fragment.activityViewModel.siteInfo.firstName}"
             tools:text="Hello, John Doe"
             android:textAppearance="?textAppearanceSubtitle1" />
 

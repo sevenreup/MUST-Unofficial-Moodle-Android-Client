@@ -64,6 +64,7 @@ dependencies {
     // epoxy
     implementation "com.airbnb.android:epoxy:$versions.epoxyVersion"
     kapt "com.airbnb.android:epoxy-processor:$versions.epoxyVersion"
+    implementation "com.airbnb.android:epoxy-paging:$versions.epoxyVersion"
     implementation "com.airbnb.android:epoxy-glide-preloading:$versions.epoxyVersion"
 
     // lottie
@@ -99,6 +100,10 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+
+    // paging
+    implementation "androidx.paging:paging-runtime-ktx:$versions.paging"
+    implementation "androidx.paging:paging-rxjava2-ktx:$versions.paging"
 
     // download manager
     implementation "com.liulishuo.okdownload:okdownload:$versions.okdownload"

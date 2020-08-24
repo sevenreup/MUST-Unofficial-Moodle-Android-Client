@@ -1,6 +1,7 @@
 package com.skybox.seven.edustat.api
 
 import com.skybox.seven.edustat.model.*
+import com.skybox.seven.edustat.model.prefs.PreferenceResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -64,4 +65,45 @@ interface MoodleService {
     @GET("webservice/rest/server.php?wsfunction=core_message_get_conversation_messages")
     fun getAllMessagesInChat(@Query("currentuserid") userId: Int, @Query("convid") convId: Int, @Query("limitfrom") limitFrom: Int,
                    @Query("limitnum") limitNum: Int, @Query("newest") newest: Int): Single<Chat>
+
+    /**
+     * Get all notifications
+     * Has pagination and whatnot
+     */
+    @GET("webservice/rest/server.php?wsfunction=message_popup_get_popup_notifications")
+    fun getAllNotifications(@Query("useridto") userId: Int, @Query("newestfirst") newFirst: Int,
+                            @Query("offset") offset: Int, @Query("limit") limit: Int): Single<NotificationsResponse>
+
+    /**
+     * Get all unread notifications
+     */
+    @GET("webservice/rest/server.php?wsfunction=message_popup_get_unread_popup_notification_count")
+    fun getNotificationUnreadCount(@Query("useridto") userId: Int): Single<Int>
+
+    /**
+     * Mark all notifications as read
+     * Todo: (returns as 'true' check if its not string)
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_message_mark_all_notifications_as_read")
+    fun getMarkAllNotificationsAsRead(@Query("useridto") userId: Int): Single<Boolean>
+
+    /**
+     * Mark notification as read
+     * timestamp (UNIX format, seconds) current timestamp in seconds
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_message_mark_notification_read")
+    fun getMarkNotificationAsRead(@Query("notificationid") notID: Int, @Query("timeread") timeStamp: Int): Single<Boolean>
+    /**
+     * Get all notification preferences
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_message_get_user_notification_preferences")
+    fun getNotificationPreferences(@Query("userid") userID: Int): Single<PreferenceResponse>
+    /**
+     * Get all notification preferences
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_user_add_user_device")
+    fun addUserDevicePushToNotification(@Query("appid") appID: String, @Query("name") deviceName: String,
+                                        @Query("model") deviceModel: String, @Query("platform") platform: String,
+                                        @Query("version") version: String, @Query("pushid") pushID: String,
+                                        @Query("uuid") uuid: String): Single<PreferenceResponse>
 }

@@ -12,13 +12,10 @@ import com.skybox.seven.edustat.repository.SiteRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class HomeViewModel @ViewModelInject constructor(private val moodleService: MoodleService,
-                                                 private val siteRepository: SiteRepository,
-                                                 private val prefRepository: PrefRepository
+class HomeViewModel @ViewModelInject constructor(private val moodleService: MoodleService
 ):
     ViewModel() {
     val courseList: MutableLiveData<List<Course>> = MutableLiveData()
-    val siteInfo: LiveData<Site> = siteRepository.getSite(prefRepository.getUserID())
 
     fun getCourseList(userId: Int) {
         moodleService.getCourses(userId)

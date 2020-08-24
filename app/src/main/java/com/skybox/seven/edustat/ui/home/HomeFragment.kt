@@ -1,12 +1,12 @@
 package com.skybox.seven.edustat.ui.home
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -18,13 +18,14 @@ import com.skybox.seven.edustat.R
 import com.skybox.seven.edustat.databinding.FragmentHomeBinding
 import com.skybox.seven.edustat.epoxy.controllers.HomeController
 import com.skybox.seven.edustat.model.Course
+import com.skybox.seven.edustat.ui.main.MainViewModel
 import com.skybox.seven.edustat.util.GridSpacingItemDecoration
-import com.skybox.seven.edustat.util.SpacesItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), HomeController.CourseCallbacks{
     val viewModel: HomeViewModel by viewModels()
+    val activityViewModel: MainViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeBinding
     private val homeController = HomeController(this)
 
@@ -33,7 +34,7 @@ class HomeFragment : Fragment(), HomeController.CourseCallbacks{
         enterTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.edu_motion_duration_large).toLong()
         }
-        viewModel.siteInfo.observe(this, Observer {
+        activityViewModel.siteInfo.observe(this, Observer {
             viewModel.getCourseList(it.userId)
         })
 

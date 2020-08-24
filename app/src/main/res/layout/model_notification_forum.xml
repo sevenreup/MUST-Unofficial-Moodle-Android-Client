@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/model_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RESP-411-CSIT: Re: Phases of the research process"
+            android:textAppearance="?textAppearanceSubtitle1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView android:id="@+id/model_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/reply_black_900"
+            app:layout_constraintTop_toBottomOf="@id/model_title"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView android:id="@+id/model_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="EMMANUEL MAFAITI"
+            android:padding="8dp"
+            app:layout_constraintStart_toEndOf="@id/model_image"
+            app:layout_constraintTop_toTopOf="@id/model_image"
+            app:layout_constraintEnd_toStartOf="@id/time"/>
+
+        <TextView android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15:32"
+            app:layout_constraintTop_toTopOf="@id/model_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/model_user"/>
+
+        <TextView android:id="@+id/model_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="EMMANUEL MAFAITI posted in RESP-411-CSIT: Discussion forum for Lecture 1: Phases of the research process"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/model_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
