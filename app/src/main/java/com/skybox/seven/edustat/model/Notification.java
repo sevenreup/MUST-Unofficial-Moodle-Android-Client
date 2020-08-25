@@ -46,6 +46,7 @@ public class Notification {
     private String eventtype;
     @Json(name = "customdata")
     private String customdata;
+    private UserResponse user;
 
     public Integer getId() {
         return id;
@@ -215,4 +216,11 @@ public class Notification {
         this.customdata = customdata;
     }
 
+    public UserResponse getUser() {
+        return user;
+    }
+
+    public void setUser(UserResponse user) {
+        this.user = user;
+    }
 }

@@ -8,12 +8,15 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.skybox.seven.edustat.dataSource.NotificationDataSourceFactory
 import com.skybox.seven.edustat.model.Notification
+import com.skybox.seven.edustat.repository.PrefRepository
+import com.skybox.seven.edustat.util.addTokenToUrl
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 private const val TAG = "NotificationViewModel"
 class NotificationViewModel @ViewModelInject constructor(
     private val compositeDisposable: CompositeDisposable,
-    notificationFactory: NotificationDataSourceFactory
+    notificationFactory: NotificationDataSourceFactory,
+    private val prefRepository: PrefRepository
 ): ViewModel() {
     private val pageSize = 15
     val notifications: LiveData<PagedList<Notification>>
@@ -35,6 +38,10 @@ class NotificationViewModel @ViewModelInject constructor(
     fun reload() {
         notifications.value?.dataSource?.invalidate()
     }
+
+    fun getURL(url: String) = addTokenToUrl(url, prefRepository)
+
+    fun getToken() = prefRepository.getToken()
 
     override fun onCleared() {
         super.onCleared()

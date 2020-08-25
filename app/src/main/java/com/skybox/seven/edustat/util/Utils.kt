@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Environment
 import androidx.core.content.FileProvider
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.Multimap
 import com.skybox.seven.edustat.model.ActiveCourseData
 import com.skybox.seven.edustat.model.DownloadFile
 import com.skybox.seven.edustat.model.Module
+import com.skybox.seven.edustat.model.Notification
 import com.skybox.seven.edustat.repository.PrefRepository
 import java.io.File
 import java.net.URI
@@ -24,6 +27,18 @@ fun addTokenToUrl(url: String, prefRepository: PrefRepository): String {
     return URI(uri.scheme, uri.authority, uri.path, queryParams.toString(), uri.fragment).toString()
 
 }
+
+fun addTokenToUrl(url: String, token: String): String {
+    val uri = URI(url)
+    val queryParams = StringBuilder(uri.query.orEmpty())
+    if (queryParams.isNotEmpty())
+        queryParams.append('&')
+
+    queryParams.append("token=$token")
+    return URI(uri.scheme, uri.authority, uri.path, queryParams.toString(), uri.fragment).toString()
+
+}
+
 
 fun convertModuleToFile(module: Module, prefRepository: PrefRepository, data: ActiveCourseData): DownloadFile {
     val file = DownloadFile()
@@ -45,4 +60,14 @@ fun selfFileOpenIntent(context: Context, path: String, mimeType: String, package
     intent.setDataAndType(uri, mimeType)
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     return intent
+}
+
+fun getUserIdsFromNotification(notifications: List<Notification>): List<Int> = notifications.map { it.useridfrom  }
+
+fun createMapOfNotifications(notifications: List<Notification>): Multimap<String, Notification> {
+    val maps:Multimap<String, Notification> = ArrayListMultimap.create()
+    notifications.forEach {
+        maps.put(it.useridfrom.toString(), it)
+    }
+    return maps
 }

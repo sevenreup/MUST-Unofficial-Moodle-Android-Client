@@ -93,11 +93,13 @@ interface MoodleService {
      */
     @GET("webservice/rest/server.php?wsfunction=core_message_mark_notification_read")
     fun getMarkNotificationAsRead(@Query("notificationid") notID: Int, @Query("timeread") timeStamp: Int): Single<Boolean>
+
     /**
      * Get all notification preferences
      */
     @GET("webservice/rest/server.php?wsfunction=core_message_get_user_notification_preferences")
     fun getNotificationPreferences(@Query("userid") userID: Int): Single<PreferenceResponse>
+
     /**
      * Get all notification preferences
      */
@@ -106,4 +108,16 @@ interface MoodleService {
                                         @Query("model") deviceModel: String, @Query("platform") platform: String,
                                         @Query("version") version: String, @Query("pushid") pushID: String,
                                         @Query("uuid") uuid: String): Single<PreferenceResponse>
+
+    /**
+     * Get users profile using course
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_user_get_course_user_profiles")
+    fun getUserProfileByCourse(@Query("userlist") list: Array<UserProfileRequests>): Single<List<UserResponse>>
+
+    /**
+     * Get users profile using field type
+     */
+    @GET("webservice/rest/server.php?wsfunction=core_user_get_users_by_field")
+    fun getUserProfileByField(@Query("field") field: String, @Query("values[]") values: List<Int>): Single<List<UserResponse>>
 }

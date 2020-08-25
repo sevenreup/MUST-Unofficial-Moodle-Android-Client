@@ -6,7 +6,7 @@ import com.skybox.seven.edustat.epoxy.generic.LoadingModel_
 import com.skybox.seven.edustat.epoxy.notification.ForumNotificationModel_
 import com.skybox.seven.edustat.model.Notification
 
-class NotificationController: PagedListEpoxyController<Notification>() {
+class NotificationController(private val token: String): PagedListEpoxyController<Notification>() {
     init {
         isDebugLoggingEnabled = true
     }
@@ -14,7 +14,9 @@ class NotificationController: PagedListEpoxyController<Notification>() {
     override fun buildItemModel(currentPosition: Int, item: Notification?): EpoxyModel<*> {
         return if (item != null) {
             ForumNotificationModel_().id(item.id)
-                .body(item.fullmessage)
+                .body(item.smallmessage)
+                .user(item.user)
+                .token(token)
                 .title(item.subject)
         } else {
             LoadingModel_().id("loading_")

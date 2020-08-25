@@ -6,5 +6,5 @@
     <item android:id="@+id/messages" android:title="Messages"
         android:icon="@drawable/ic_chat"/>
     <item android:id="@+id/notificationPrefs" android:title="Notifications"
-        android:icon="@drawable/ic_account"/>
+        android:icon="@drawable/ic_notifications"/>
 </menu>
