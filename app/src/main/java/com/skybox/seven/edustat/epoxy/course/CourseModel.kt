@@ -30,7 +30,8 @@ abstract class CourseModel: EpoxyModelWithHolder<CourseModel.CourseHolder>() {
     override fun bind(holder: CourseHolder) {
         super.bind(holder)
         holder.title.text = course.displayname
-        holder.progressBar.progress = course.progress.toInt()
+        holder.progressBar.progress = try { course.progress.toInt() } catch (ex: Exception) { 0 }
+
         holder.shortTitle.text = course.shortname
 //        val colors = intArrayOf(Color.parseColor("#008000"), Color.parseColor("#ADFF2F"))
 //        val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors)
